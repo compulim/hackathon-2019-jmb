@@ -1,0 +1,309 @@
+@charset "Shift_JIS";
+
+
+/* -----------------------------------------------
+                      base styles
+   ----------------------------------------------- */
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+div, p, pre, ul, ol, dl,
+address, form, blockquote
+	{
+	display: block;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	text-align: left;
+	}
+
+h1, h2, h3, h4, h5, h6
+	{
+	font-weight: bold;
+	}
+
+table
+	{
+	display: table;
+	}
+
+li
+	{
+	display: list-item;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	text-align: left;
+	}	
+
+a, abbr, acronym, bdo, big,
+cite, code, dfn, em, img, kbd, label,
+object, q, ruby, samp, small,
+span, strong, sub, sup, var
+	{
+	display: inline;
+	margin: 0;
+	padding: 0;
+	/* line-height: 1; */
+	}
+
+body
+	{
+	padding: 9px 0 20px 14px;
+	color: black;
+	background: white;
+	font-size: 12px;
+	font-family: "MS UI Gothic", "Tahoma", "Lucida Grande", "ƒqƒ‰ƒMƒmŠÛƒS Pro W4",
+	             "Osaka", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	}
+
+a
+	{
+	text-decoration: underline;
+	}
+
+a:link,
+a:visited
+	{
+	color: #0f0f69;
+	}
+	
+a:hover,
+a:active
+	{
+	color: #cc0000;
+	}
+
+img
+	{
+	/* vertical-align: middle; */
+	}
+
+a img
+	{
+	border: none;
+	}
+
+em, dfn
+	{
+	font-style: normal;
+	}
+
+em
+	{
+	font-weight: bold;
+	}
+
+input,
+select,
+textarea
+	{
+	font-size: 12px;
+	line-height: 1;
+	font-family: "MS UI Gothic", "Lucida Grande",
+	             "Osaka", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	}
+
+input.password
+	{
+	font-family: Arial, sans-serif;
+	}
+
+/* \*//*/
+input,
+select,
+textarea
+	{
+	font-family: "ƒqƒ‰ƒMƒmŠÛƒS Pro W4", "Osaka", sans-serif;
+	}
+/* */
+
+input.bt,
+input.submit,
+input.reset,
+input.button
+	{
+	_line-height: 1.05; /* WinIE */
+	}
+
+input.pseudo-focus
+	{
+	color: black;
+	}
+
+input.pseudo-disabled
+	{
+	color: #727272;
+	}
+
+
+/* -----------------------------------------------
+             historical text style control
+   ----------------------------------------------- */
+
+.s5
+	{
+	font-size: 20px !important;
+	line-height:1.2 !important;
+	}
+
+.s4
+	{
+	font-size: 14px !important;
+	}
+
+.s4n
+	{
+	font-size: 14px !important;
+	line-height: 100% !important;
+	}
+
+.s3n
+	{
+	font-size: 13px !important;
+	line-height: 1 !important;
+	}
+
+.s3l
+	{
+	font-size: 12px !important;
+	line-height: 1.4 !important;
+	}
+
+.s3
+	{
+	font-size: 12px !important;
+	line-height: 1.3 !important;
+	}
+
+.s2
+	{
+	font-size: 10px !important;
+	line-height: 1.1 !important;
+	}
+
+.s1
+	{
+	font-size: 8px !important;
+	line-height: 1.2 !important;
+	}
+
+.n3
+	{
+	font-size: 12px !important;
+	}
+
+.n2
+	{
+	font-size: 10px !important;
+	}
+
+.n1
+	{
+	font-size: 7px !important;
+	}
+
+
+/* -----------------------------------------------
+         styles for class specified fragments
+   ----------------------------------------------- */
+
+/* =========== link style =========== */
+
+.inPara
+	{
+	margin: 0 3px;
+	}
+
+
+a.inPara
+	{
+	text-decoration: underline !important;
+	}
+
+a.inPara:visited
+	{
+	text-decoration: underline !important;
+	}
+
+a.withIconA
+	{
+	text-decoration: none;
+	}
+
+a.withIconA:hover,
+a.withIconA:active
+
+	{
+	text-decoration: underline;
+	}
+
+a.withIconA img
+	{
+	vertical-align: middle;
+	}
+
+/*
+input.linkButtonA,
+input.linkButtonB
+	{
+	behavior: url(/common/css/linkButton.htc);
+	}
+
+a.linkButtonA:hover img,
+a.linkButtonB:hover img,
+input.linkButtonA.pseudo-hover,
+input.linkButtonB.pseudo-hover
+	{
+	filter: alpha (opacity=60);
+	}
+
+a.linkButtonA:active img,
+a.linkButtonB:active img,
+input.linkButtonA.pseudo-active,
+input.linkButtonB.pseudo-active
+	{
+	filter: Invert() gray();
+	margin-top: 1px;
+	margin-bottom: -1px;
+	}
+*/
+
+a.linkButtonD
+	{
+	display: block;
+	margin: 0 0 2px;
+	border-right: 1px solid #d6d6d6;
+	border-bottom: 1px solid #cdcdcd;
+	background: #fefefe url(/common/img/bg_link-button.gif) repeat-x;
+	color: #0f0f69;
+	text-decoration: none;
+	font-weight: normal;
+	padding: 3px 5px;
+	/*\*/
+	padding: 3px 5px 3px 11px;
+	text-indent: -6px;
+	/**/
+	_behavior: url(/common/css/linkButton.htc);
+	}
+
+a.linkButtonD.iconA
+	{
+	/*\*/
+	padding-left: 19px;
+	text-indent: -14px;
+	/**/
+	}
+
+a.linkButtonD:hover,
+a.linkButtonD:active
+	{
+	color: #0f0f69;
+	background: #dedede url(/common/img/bg_link-button_o.gif) repeat-x;
+	text-decoration: none;
+	}
+
+a.linkButtonD img
+	{
+	vertical-align: middle;
+	}

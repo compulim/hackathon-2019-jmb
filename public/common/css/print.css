@@ -1,0 +1,23 @@
+@charset "Shift_JIS";
+@media print{ 
+
+/* -----------------------------------------------
+                styles for print media
+   ----------------------------------------------- */
+
+body
+	{
+	zoom: 80%; /* WinIE only */
+	}
+
+
+/*- 070401 add for oneworld logo -*/
+#globalFooterA02 a.withIconA img,
+#globalFooterA04 a.withIconA img,
+
+#globalFooterA02 address img,
+#globalFooterA04 address img,
+	{
+	_margin-top: -58px;
+	}
+}

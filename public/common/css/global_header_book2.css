@@ -1,0 +1,116 @@
+@charset "Shift_JIS";
+
+/* -----------------------------------------------
+     global header / footer for booking pages
+   ----------------------------------------------- */
+
+/* =========== global header =========== */
+
+#globalHeader
+	{
+	width: 779px; /* 765px + 14px */
+	margin-left: -14px;
+	margin-bottom: 12px;
+	padding-bottom: 1px;
+	border-bottom: 1px solid #a6a6a6;
+	}
+
+#globalHeader h1
+	{
+	margin-left: 13px;
+	}
+
+#globalHeader ul
+	{
+	margin-top: -8px;
+	text-align: right;
+	}
+
+#globalHeader ul li
+	{
+	display: inline;
+	list-style: none;
+	margin-left: 9px;
+	font-size: 10px;
+	}
+
+#globalHeader a
+	{
+	text-decoration: none;
+	}
+
+#globalHeader a:hover
+	{
+	text-decoration: underline;
+	}
+
+#globalHeader img
+	{
+	border: none;
+	}
+
+
+/* =========== global footer =========== */
+
+
+#globalFooter
+	{
+	width: 779px; /* 765px + 14px */
+	margin-left: -14px;
+	margin-top: 25px;
+	padding-top: 30px;
+	background-image: url(../img/footer_bg_001.gif);
+	background-repeat: no-repeat;
+	background-position: top left;
+	}
+
+#globalFooter ul,
+#globalFooter address
+	{
+	margin-left: 14px;
+	}
+
+#globalFooter ul li
+	{
+	display: inline;
+	list-style: none;
+	margin-right: 12px;
+	font-size: 10px;
+	}
+
+#globalFooter address
+	{
+	margin-top: 10px;
+	}
+
+#globalFooter address.simple
+	{
+	margin-top: 0;
+	padding-top: 7px;
+	}
+
+#globalFooter a
+	{
+	text-decoration: none;
+	}
+
+#globalFooter a:hover
+	{
+	text-decoration: underline;
+	}
+
+#globalFooter img
+	{
+	border: none;
+	}
+
+/*  Ç¶Ç´ÇÀÇ¡Ç∆ ÉçÉSèoÇµï™ÇØÇÊÇ§css  */
+
+div#globalHeader div#globalHeaderLogo
+   {
+   position:absolute;
+   top:9px;
+   left:642px;
+   margin:0;
+   padding:0;
+   }

@@ -1,0 +1,456 @@
+@charset "Shift_JIS";
+
+
+/* =========== contentsGrid =========== */
+/* JMB01 */
+table.contentsGridJMB01
+	{
+	margin: 0 0 0 -14px;
+	}
+
+table.contentsGridJMB01 td
+	{
+	vertical-align: top;
+	}
+
+/* JMB02 */
+table.contentsGridJMB02
+	{
+	margin: 0;
+	}
+
+table.contentsGridJMB02 td
+	{
+	vertical-align: top;
+	}
+
+/* JMB03 */
+div.contentsGridJMB03
+	{
+	width: 765px;
+	}
+
+/* =========== leadHeadingBlockJMB01 =========== */
+
+table.leadHeadingBlockJMB01
+
+	{
+	margin: 0;
+	padding: 0;
+	width: 765px;
+	clear: both;
+	background-color: #eef0f0;
+	}
+
+table.leadHeadingBlockJMB01 th,
+table.leadHeadingBlockJMB01 td
+	{
+	padding: 3px;
+	}
+
+table.leadHeadingBlockJMB01 th
+	{
+	border-left: 8px solid #000063;
+	padding-left: 8px;
+	text-align: left;
+	font-weight: normal;
+	}
+
+table.leadHeadingBlockJMB01 th h1
+	{
+	display: inline;
+	margin: 0 1em 0 0;
+	padding: 0;
+	font-size: 14px;
+	line-height: 1.2;
+	font-weight: bold;
+	}
+
+table.leadHeadingBlockJMB01 th p
+	{
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	line-height: 1.2;
+	}
+
+table.leadHeadingBlockJMB01 td
+	{
+	white-space: nowrap;
+	}
+
+table.leadHeadingBlockJMB01 td ul
+	{
+	margin-right: 5px;
+	text-align: right;
+	font-size: 12px;
+	}
+
+table.leadHeadingBlockJMB01 td li
+	{
+	display: inline;
+	margin-left: 10px;
+	}
+
+/* =========== lead ありがとうリード文 =========== */
+.lead
+	{
+	width: 765px;
+	}
+
+.lead *
+	{
+	text-align: center;
+	}
+
+.lead h1
+	{
+	color: #cc0000;
+	margin-bottom: 5px;
+	}
+
+/* =========== JMBNoteListA01 =========== */
+
+div.JMBNoteListA01
+	{
+	width: 765px;
+	}
+
+div.JMBNoteListA01 h2
+	{
+	margin: 0 0 4px 0;
+	font-size: 14px;
+	}
+
+div.JMBNoteListA01 div.noteItem
+	{
+	margin: 0;
+	padding: 9px;
+	border: 1px solid #a8a8a8;
+	}
+
+div.JMBNoteListA01 h3
+	{
+	margin: 0 0 4px;
+	font-size: 12px;
+	line-height: 1.2;
+	}
+
+/* =========== tableA03 th td 背景色 =========== */
+
+.bgColorJMB01
+	{
+	background-color: #eeeeee;
+	}
+
+/* headingDx */
+
+.headingD01
+	{
+	margin-bottom: 5px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #666666;
+	font-size: 14px;
+	font-weight: bold;
+	}
+
+.headingD02
+	{
+	margin-bottom: 5px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #666666;
+	font-size: 12px;
+	font-weight: bold;
+	}
+
+.headingD03
+	{
+	margin-bottom: 5px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #666666;
+	font-size: 12px;
+	font-weight: normal;
+	}
+
+.headingD04
+	{
+	margin-bottom: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	}
+
+/* =========== resultInfoBlockJMB01 =========== */
+
+div.resultInfoBlockJMB01
+	{
+	width: 570px;
+	}
+
+div.resultInfoBlockJMB01 h2
+	{
+	margin: 0 0 2px 0;
+	font-size: 14px;
+	}
+div.resultInfoBlockJMB01 table.tableA05 td.pseudo-lastChild
+	{
+	padding-right: 30px;
+	}
+
+div.resultInfoBlockJMB01 table.tableA05 tr.pseudo-lastChild
+	{
+	font-weight: bold;
+	}
+
+div.resultInfoBlockJMB01 table.tableA05 em.term
+	{
+	font-size: 14px;
+	}
+
+div.resultInfoBlockJMB01 table.tableA05 em.totalPrice
+	{
+	font-size: 18px;
+	}
+
+/* =========== actionBlockJMB01 POPUP用可変actionBlock =========== */
+
+div.actionBlockJMB01
+	{
+	width: auto;
+	margin-right: 14px;
+	padding: 10px;
+	border-width: 0 1px;
+	border-style: solid;
+	border-color: #cccccc #b0b0b0 #cccccc #dfdfdf;
+	background-color: #cccccc;
+	text-align: right;
+	}
+
+div.actionBlockJMB01 input.image
+	{
+	margin: 0 10px 0 0;
+	vertical-align: middle;
+	}
+/* =========== actionBlockJMB01 幅100%可変actionBlock =========== */
+
+div.actionBlockJMB02
+	{
+	width: auto;
+	padding: 10px;
+	border-width: 0 1px;
+	border-style: solid;
+	border-color: #cccccc #b0b0b0 #cccccc #dfdfdf;
+	background-color: #cccccc;
+	text-align: right;
+	}
+
+div.actionBlockJMB02 input.image
+	{
+	margin: 0 10px 0 0;
+	vertical-align: middle;
+	}
+
+/* =========== globalHeaderJMB01 POPUP用Header =========== */
+
+#globalHeaderJMB01
+	{
+	width: auto;
+	margin-right: 14px;
+	margin-top: -2px;
+	margin-left: -14px;
+	margin-bottom: 12px;
+	padding-bottom: 1px;
+	border-bottom: 1px solid #a6a6a6;
+	}
+
+#globalHeaderJMB01 h1
+	{
+	margin-left: 13px;
+	}
+
+#globalHeaderJMB01 img
+	{
+	border: none;
+	}
+
+#globalHeaderJMB01 ul
+	{
+	margin-top: -8px;
+	text-align: right;
+	}
+
+#globalHeaderJMB01 ul li
+	{
+	display: inline;
+	list-style-type: none;
+	list-style-image: none;
+	margin-left: 9px;
+	font-size: 10px;
+	}
+
+
+/* =========== globalFooterJMB01 POPUP用Footer =========== */
+
+#globalFooterJMB01
+	{
+	width: auto;
+	margin-right: 14px;
+	margin-left: -14px;
+	margin-top: 25px;
+	padding-top: 30px;
+	background-image: url(../common/img/bg_footer_001.gif);
+	background-repeat: no-repeat;
+	background-position: top right;
+	}
+
+#globalFooterJMB01 ul,
+#globalFooterJMB01 address
+	{
+	margin-left: 14px;
+	}
+
+#globalFooterJMB01 ul
+	{
+	white-space: nowrap;
+	_margin-bottom: -30px; /* WinIE */
+	}
+
+#globalFooterJMB01 ul li
+	{
+	display: inline;
+	list-style-type: none;
+	list-style-image: none;
+	margin-right: 11px;
+	font-size: 10px;
+	}
+
+#globalFooterJMB01 address
+	{
+	margin-top: 10px;
+	}
+
+
+.nowrap
+	{
+	white-space: nowrap;
+	}
+
+a.linkButtonJMB
+	{
+	display: block;
+	margin: 0 0 2px;
+	border-right: 1px solid #d6d6d6;
+	border-bottom: 1px solid #cdcdcd;
+	background: #fefefe url(../common/img/bg_link-button.gif) repeat-x;
+	color: #0f0f69;
+	text-decoration: none;
+	font-weight: normal;
+	padding: 3px 5px;
+	/*\*/
+	padding: 3px 5px 3px 11px;
+	text-indent: -6px;
+	/**/
+	_behavior: url(../common/css/linkButton.htc);
+	}
+
+a.linkButtonJMB.iconA
+	{
+	/*\*/
+	padding-left: 19px;
+	text-indent: -14px;
+	/**/
+	}
+
+a.linkButtonJMB:hover,
+a.linkButtonJMB:active
+	{
+	color: #0f0f69;
+	background: #dedede url(../common/img/bg_link-button_o.gif) repeat-x;
+	text-decoration: none;
+	}
+
+a.linkButtonJMB img
+	{
+	vertical-align: middle;
+	}
+
+div.rule div.checklist{
+	background-color: #F8B8B9;
+	padding: 3px;
+ text-align:right;
+	color:#880000;
+}
+
+div.rule div.checklist2{
+	background-color: #E5E5E5;
+	padding: 3px;
+ text-align:right;
+}
+@charset "Shift_JIS";
+
+
+/* =========== cardBlock =========== */
+
+div.cardBlock {
+	margin-top: -229px;
+	width: 372px;
+	height: 234px;
+	background-repeat: no-repeat;
+}
+
+html:\66irst-child div.cardBlock { /* safari */
+	margin-top: -229px;
+	padding-bottom: 35px;
+}
+
+div.cardBlock dfn {
+	padding-top: 20px;
+	padding-left: 156px;
+	font-size: 18px;
+	font-weight: bold;
+	display: block;
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+div.cardBlock dl {
+	list-style: none;
+	padding-top: 110px;
+	margin-left: 27px;
+	color: #ffffff;
+}
+
+div.cardBlock dl dt {
+	font-size: 10px;
+	font-weight: bold;
+	margin-bottom: 1px;
+	color: #ffffff;
+}
+
+div.cardBlock dl dd {
+	margin: 0 0 2px 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+div.cardBlock dl dd.type {
+	font-size: 10px;
+	color: #ffffff;
+}
+
+div.cardBlock dl dd.userid,
+div.cardBlock dl dd.name {
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.linkList li {
+	list-style: none;
+	padding: 3px 0;
+	}
+.lineH_16 {
+	line-height: 1.6;
+	}
+.lineH_14 {
+	line-height: 1.4;
+	}

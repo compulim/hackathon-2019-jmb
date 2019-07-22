@@ -1,0 +1,26 @@
+{
+  "name": "jmb-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel --out-dir lib --source-maps true src",
+    "start": "npm run build && concurrently --kill-others --names \"build,start\" \"npm run build -- --watch\" \"node-dev --no-notify --respawn .\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "concurrently": "^4.1.1",
+    "node-dev": "^4.0.0"
+  },
+  "dependencies": {
+    "botbuilder": "^4.5.1",
+    "dotenv": "^8.0.0",
+    "restify": "^8.3.3"
+  }
+}

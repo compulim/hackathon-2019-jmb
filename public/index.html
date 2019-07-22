@@ -1,0 +1,1108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_Jis">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <title>Enrollment in JAL Mileage Bank</title>
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/base.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/base2.css">
+  <link rel="stylesheet" type="text/css" media="print" href="/common/css/print.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/global_header_book2.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/global_header_2.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/information_block.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/jmb_new/enroll/css/jmb.css">
+  <script type="text/javascript" src="/common/js/common.js"></script>
+
+  <SCRIPT LANGUAGE="JavaScript">
+<!--Beginning of JavaScript------------------
+
+      // エンボス氏名の自動補足処理
+      // 姓名の入力があり、かつエンボスの欄が空、かつ姓+名+1space で23バイト以下だったら自動補足を行う
+      function NameFocus(emboss) {
+        if ((document.EnrollJRActionForm_en.romajiForeName.value != "") && (document.EnrollJRActionForm_en.romajiFamilyName.value != "") &&
+          (document.EnrollJRActionForm_en.embossName.value == "")) {
+
+          if ((document.EnrollJRActionForm_en.romajiForeName.value.length + document.EnrollJRActionForm_en.romajiFamilyName.value.length + 1) <= 23) {
+            emboss = document.EnrollJRActionForm_en.romajiForeName.value + " " + document.EnrollJRActionForm_en.romajiFamilyName.value;
+            document.EnrollJRActionForm_en.embossName.value = emboss.toUpperCase();
+          }
+        }
+      }
+
+    function NumberCheck(Item) {
+      returnFlg = true;
+      var checkOK = "0123456789";
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            returnFlg = false;
+            break;
+          }
+        }
+      }
+      return returnFlg;
+    }
+
+
+    function CheckInputData() {
+      MyObj = document.forms[0];
+      //** First Name???????
+      if (MyObj.first_name.value == "") {
+        alert("Please enter First Name.");
+        MyObj.first_name.focus();
+        return false;
+      }
+      // ??????
+      Item = MyObj.first_name.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter First Name in english characters only.");
+          MyObj.first_name.focus();
+          return false;
+        }
+      }
+      //** Last Name???????
+      if (MyObj.last_name.value == "") {
+        alert("Please enter Last Name.");
+        MyObj.last_name.focus();
+        return false;
+      }
+      // ??????
+      Item = MyObj.last_name.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Last Name in english characters only.");
+          MyObj.last_name.focus();
+          return false;
+        }
+      }
+      //** SEX
+      if (MyObj.sex_type[0].checked == "" && MyObj.sex_type[1].checked == "") {
+        alert("Please enter your SEX.");
+        MyObj.sex_type[0].focus();
+        return false;
+      }
+      //** DATE OF BIRTH
+      if (MyObj.birth_y.value == "") {
+        alert("Please enter Birthday's year.");
+        MyObj.birth_y.focus();
+        return false;
+      }
+      var checkOK = "0123456789";
+      for (i = 0; i < MyObj.birth_y.value.length; i++) {
+        ch = MyObj.birth_y.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits in the\"DATE OF BIRTH - Year\" field.");
+            MyObj.birth_y.focus();
+            return false;
+          }
+        }
+      }
+      Item = MyObj.birth_y.value;
+      if (Item < "1882" || "2010" < Item) {
+        alert("Please enter Birthday's year certainly.");
+        MyObj.birth_y.focus();
+        return false;
+      }
+      var checkOK = "0123456789";
+      for (i = 0; i < MyObj.birth_m.value.length; i++) {
+        ch = MyObj.birth_m.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits in the\"DATE OF BIRTH - Month\" field.");
+            MyObj.birth_m.focus();
+            return false;
+          }
+        }
+      }
+      if (MyObj.birth_m.value == "") {
+        alert("Please enter Birthday's Month.");
+        MyObj.birth_m.focus();
+        return false;
+      }
+      var checkOK = "0123456789";
+      for (i = 0; i < MyObj.birth_d.value.length; i++) {
+        ch = MyObj.birth_d.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits in the\"DATE OF BIRTH - Day\" field.");
+            MyObj.birth_d.focus();
+            return false;
+          }
+        }
+      }
+      if (MyObj.birth_d.value == "") {
+        alert("Please enter Birthday's Day.");
+        MyObj.birth_d.focus();
+        return false;
+      }
+      // HOME - Address?????
+      //** Address
+      if (MyObj.home_addrs1.value == "") {
+        alert("Please enter your Address(HOME).");
+        MyObj.home_addrs1.focus();
+        return false;
+      }
+      Item = MyObj.home_addrs1.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(HOME) in english characters and digits only.");
+          MyObj.home_addrs1.focus();
+          return false;
+        }
+      }
+      Item = MyObj.home_addrs2.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(HOME) in english characters and digits only.");
+          MyObj.home_addrs2.focus();
+          return false;
+        }
+      }
+      Item = MyObj.home_addrs3.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(HOME) in english characters and digits only.");
+          MyObj.home_addrs3.focus();
+          return false;
+        }
+      }
+      Item = MyObj.home_addrs4.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(HOME) in english characters and digits only.");
+          MyObj.home_addrs4.focus();
+          return false;
+        }
+      }
+      //** Post Code
+      if (MyObj.home_zipno.value == "") {
+        alert("Please enter your Post Code(HOME).");
+        MyObj.home_zipno.focus();
+        return false;
+      }
+      var checkOK = "0123456789-()";
+      for (i = 0; i < MyObj.home_zipno.value.length; i++) {
+        ch = MyObj.home_zipno.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"Post Code(HOME)\" field.");
+            MyObj.home_zipno.focus();
+            return false;
+          }
+        }
+      }
+      //** Phone Number
+      if (MyObj.home_tel.value == "") {
+        alert("Please enter your Phone number(HOME).");
+        MyObj.home_tel.focus();
+        return false;
+      }
+      var checkOK = "0123456789-";
+      for (i = 0; i < MyObj.home_tel.value.length; i++) {
+        ch = MyObj.home_tel.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"Phone Number(HOME)\" field.");
+            MyObj.home_tel.focus();
+            return false;
+          }
+        }
+      }
+      // FAX Number
+      var checkOK = "0123456789-";
+      for (i = 0; i < MyObj.home_fax.value.length; i++) {
+        ch = MyObj.home_fax.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"FAX Number(HOME)\" field.");
+            MyObj.home_fax.focus();
+            return false;
+          }
+        }
+      }
+      //** PIN
+      if (MyObj.pin1.value == "") {
+        alert("Please enter your PIN.");
+        MyObj.pin1.focus();
+        return false;
+      }
+      var checkOK = "0123456789";
+      for (i = 0; i < MyObj.pin1.value.length; i++) {
+        ch = MyObj.pin1.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits in the\"PIN\" field.");
+            MyObj.pin1.focus();
+            return false;
+          }
+        }
+      }
+      if (MyObj.pin2.value == "") {
+        alert("Please enter your PIN(for confirmation).");
+        MyObj.pin2.focus();
+        return false;
+      }
+      var checkOK = "0123456789";
+      for (i = 0; i < MyObj.pin2.value.length; i++) {
+        ch = MyObj.pin2.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits in the\"PIN(for confirmation)\" field.");
+            MyObj.pin2.focus();
+            return false;
+          }
+        }
+      }
+      if (MyObj.pin1.value != MyObj.pin2.value) {
+        alert("Please re-enter your PIN and PIN(for confirmation).");
+        MyObj.pin1.focus();
+        return false;
+      }
+      // BUSINESS - Address
+      // Company Name
+      Item = MyObj.co_name.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Company Name in english characters and digits only.");
+          MyObj.co_name.focus();
+          return false;
+        }
+      }
+      // Department
+      if (MyObj.co_depa.value != "" && MyObj.co_name.value == "") {
+        alert("Please enter Company Name.");
+        MyObj.co_depa.focus();
+        return false;
+      }
+      Item = MyObj.co_depa.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Department in english characters and digits only.");
+          MyObj.co_depa.focus();
+          return false;
+        }
+      }
+      // Title
+      Item = MyObj.co_title.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Title in english characters and digits only.");
+          MyObj.co_title.focus();
+          return false;
+        }
+      }
+      // Street Address
+      Item = MyObj.co_addrs1.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(BUSINESS) in english characters and digits only.");
+          MyObj.co_addrs1.focus();
+          return false;
+        }
+      }
+      Item = MyObj.co_addrs2.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(BUSINESS) in english characters and digits only.");
+          MyObj.co_addrs2.focus();
+          return false;
+        }
+      }
+      Item = MyObj.co_addrs3.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(BUSINESS) in english characters and digits only.");
+          MyObj.co_addrs3.focus();
+          return false;
+        }
+      }
+      Item = MyObj.co_addrs4.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter Address(BUSINESS) in english characters and digits only.");
+          MyObj.co_addrs4.focus();
+          return false;
+        }
+      }
+      // Post Code
+      var checkOK = "0123456789-";
+      for (i = 0; i < MyObj.co_zipno.value.length; i++) {
+        ch = MyObj.co_zipno.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"Post Code(BUSINESS)\" field.");
+            MyObj.co_zipno.focus();
+            return false;
+          }
+        }
+      }
+      // Phone Number
+      var checkOK = "0123456789-";
+      for (i = 0; i < MyObj.co_tel.value.length; i++) {
+        ch = MyObj.co_tel.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"Phone Number(BUSINESS)\" field.");
+            MyObj.co_tel.focus();
+            return false;
+          }
+        }
+      }
+      // FAX Number
+      var checkOK = "0123456789-";
+      for (i = 0; i < MyObj.co_fax.value.length; i++) {
+        ch = MyObj.co_fax.value.charAt(i);
+        for (j = 0; j <= checkOK.length; j++) {
+          if (ch == checkOK.charAt(j))
+            break;
+          if (j == checkOK.length) {
+            alert("Please enter only digits and hyphen in the\"FAX Number(BUSINESS)\" field.");
+            MyObj.co_fax.focus();
+            return false;
+          }
+        }
+      }
+      // E-MAIL ADDRESS
+      Item = MyObj.email_add.value;
+      for (i = 0; i < Item.length; i++) {
+        ch = Item.charAt(i);
+        if (ch.charCodeAt() > 126) {
+          alert("Please enter E-mail Address in english characters and digits only.");
+          MyObj.email_add.focus();
+          return false;
+        }
+      }
+      if (MyObj.email_add.value != "") {
+        if (MyObj.email_DM[0].checked == "" && MyObj.email_DM[1].checked == "") {
+          alert("Please select to wish to receive information.");
+          MyObj.email_DM[0].focus();
+          return false;
+        }
+      }
+      //** Card_Type
+      if (MyObj.card_type[0].checked == "" && MyObj.card_type[1].checked == "") {
+        alert("Please enter Card_Type.");
+        MyObj.card_type[0].focus();
+        return false;
+      }
+    }
+
+// -- End of JavaScript code -------------- -->
+
+  </SCRIPT>
+  <style type="text/css">
+    <!--
+    .nameField td input,
+    td.nameField input {
+      width: 150px;
+    }
+
+    ul.linkListB01 li {
+      background: none !important;
+    }
+
+    div.commentFieldOrg h3 {
+      margin: 0 4px 4px;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    table.tableOrg01 {
+      margin: 5px 0px;
+      border-width: 1px 1px 1px 1px;
+      border-style: solid;
+      border-color: #990000;
+      border-collapse: collapse;
+      font-size: 12px;
+      background-color: #FFFFCC;
+    }
+
+    table.tableOrg01 th,
+    table.tableOrg01 td {
+      padding: 4px 5px;
+      border-width: 0;
+    }
+
+    table.tableOrg01 th {
+      text-align: left;
+      font-weight: normal;
+    }
+
+    table.tableOrg01 h3 {
+      margin: 0 0 4px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #990000;
+    }
+
+    table.tableOrg02 {
+      border-width: 1px 1px 1px 1px;
+      border-style: solid;
+      border-color: #999999;
+      border-collapse: collapse;
+      font-size: 12px;
+      background-color: #FFFFFF;
+    }
+
+    table.tableOrg02 th,
+    table.tableOrg02 td {
+      padding: 4px 5px;
+      border-width: 0;
+    }
+
+    table.tableOrg02 th {
+      text-align: left;
+      font-weight: normal;
+    }
+
+    table.tableOrg02 h3 {
+      margin: 0 0 4px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #000000;
+    }
+    -->
+  </style>
+</head>
+
+<body>
+
+
+
+
+
+  <link rel="stylesheet" href="/common/css/jmbweb_header_footer_2015_2.css" type="text/css" media="all">
+  <script type="text/javascript" src="/common_rn/js/common.js"></script>
+  <script type="text/javascript" src="/common_rn/js/common_rn.js"></script>
+  <script type="text/javascript" src="/common_rn/js/rollover.js"></script>
+
+
+  <!-- [rnSimpleHead] -->
+  <div id="rnSimpleHead">
+    <!-- [rnSimpleHeadL01] -->
+    <div id="rnSimpleHeadL01">
+      <h1 id="rnSimpleLogo01"><img src="/common_rn/img/header_logo_001_1.gif" width="381" height="35"
+          alt="JAL | JAPAN AIRLINES"></h1>
+    </div>
+    <!-- /[rnSimpleHeadL01] -->
+
+  </div>
+  <!-- /[rnSimpleHead] -->
+
+
+
+
+  <div class="contentsGridJMB03">
+
+    <table border="0" cellpadding="0" cellspacing="0" summary="" class="leadHeadingBlockJMB01">
+      <tr>
+        <th>
+          <h1>Enrollment in JAL Mileage Bank (* for resident in Japan only)</h1>
+        </th>
+      </tr>
+      <!-- /leadHeadingBlockMB01 -->
+    </table>
+    <div class="leadTextBlockA01">
+      <p>Please provide all of the required information below and click the Next button.</p>
+      <!-- leadTextBlockA01 -->
+    </div>
+
+
+
+    <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
+
+    <form action="/JmbWeb/AR/EnrollProposal_en.do" name="AR" method="post" target="_blank"></form>
+    <form action="/JmbWeb/ER/EnrollProposal_en.do" name="ER" method="post" target="_blank"></form>
+    <form action="/JmbWeb/SR/EnrollProposal_en.do" name="SR" method="post" target="_blank"></form>
+    <form name="EnrollJRActionForm_en" method="post" action="/JmbWeb/JR/EnrollConfirm_en.do">
+      <div><input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="699ccc79d3db3e87cbe291165715d1c5">
+      </div>
+
+      <!--input type="hidden" name="LINK_ID" value=""-->
+
+      <div class="customerInfoBlockA02">
+        <h2>JAL Mileage Bank Application Form</h2>
+
+        <ul class="additionalInfoListA01">
+          <li>Items with an asterisk (<img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"
+              class="reqMarkA01">) next to them are mandatory.</li>
+          <li>Please input your name as it appears in your passport.</li>
+          <li>Please also note that post-office box will not be accepted as your home address or company address.</li>
+          <li>As a member in the JMB Japan region, you must be a resident in Japan. <br>
+            <h2>If you are not a resident in Japan, please click the applicable button for location of your residence.
+              <br></h2>
+            <a href="javascript:document.forms['AR'].submit();" class="withIconA"><img
+                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Americas</a>
+            <a href="javascript:document.forms['ER'].submit();" class="withIconA"><img
+                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Europe/Middle East/Africa</a>
+            <a href="javascript:document.forms['SR'].submit();" class="withIconA"><img
+                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Asia/Oceania</a>
+          </li>
+        </ul>
+
+        <table border="0" cellpadding="0" cellspacing="0" width="765" class="dataTableA01">
+          <col>
+          <col>
+          <col width="">
+          <col width="">
+          <tbody>
+
+            <tr class="pseudo-firstChild">
+              <th rowspan="2" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>NAME</th>
+
+
+              <td class="pseudo-lastChild">First Name:<input type="text" size="30" maxlength="15" name="romajiForeName"
+                  value="" class="text"> ex) JOHNROBERT
+                <br>* If you have a Middle Name, please enter it after your First Name.</td>
+
+
+
+
+
+            </tr>
+            <tr>
+
+
+              <td class="pseudo-lastChild">Last Name:<input type="text" size="30" maxlength="15" name="romajiFamilyName"
+                  value="" class="text"> ex) SMITH</td>
+
+
+
+
+
+            </tr>
+
+            <tr class="nameField">
+              <th colspan="2"><span class="pseudo-lastChild"><em class="reqMarkA01"><img
+                      src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em>Name as it will
+                  appear on Membership Card</span></th>
+
+
+              <td colspan="2"> <input size="35" maxlength="23" name="embossName" onfocus="NameFocus()" value=""
+                  class="text" type="text">(Must be within 23 characters.)</td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>HOME</th>
+              <th>Post Code</th>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="text" size="4" maxlength="3" name="homePostalCode1" value="" class="text">
+                -
+                <input type="text" size="5" maxlength="4" name="homePostalCode2" value="" class="text">
+                ex)140-8625</td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th>Address</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <div>
+                  <input type="text" size="40" maxlength="20" name="homeAddress1" value="" class="text"
+                    style="margin-bottom:1"> ex) 4-11, Higashi-Shinagawa 2-Chome
+                  <br>
+                  <input type="text" size="40" maxlength="20" name="homeAddress2" value="" class="text"
+                    style="margin-bottom:1"> ex) Shinagawa-ku
+                  <br>
+                  <input type="text" size="40" maxlength="20" name="homeAddress3" value="" class="text"
+                    style="margin-bottom:1"> ex) Tokyo
+                  <br>
+                  Japan
+                </div>
+                <!--input type="hidden" size="120" name="snd_addrs"-->
+              </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Phone number</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="homeTel1" value=""> - <INPUT
+                  maxLength="4" size="6" name="homeTel2" value=""> - <INPUT maxLength="4" size="6" name="homeTel3"
+                  value=""> Please enter your daytime phone number</td>
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2">FAX number</th>
+
+
+              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="homeFax1" value="">
+                -
+                <INPUT maxLength="4" size="6" name="homeFax2" value="">
+                -
+                <INPUT maxLength="4" size="6" name="homeFax3" value=""></td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2" rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>e-mail Address</th>
+
+
+
+              <td colspan="2">
+                <ul class="additionalInfoListA01">
+                  <li>Please input the address for cell- phone or PHS into "Mobile/Cell-phone address".</li>
+                  <li>Codes other than the following (.Period) (-hyphen) (_ underbar) (@) are not accepted.</li>
+                </ul><input type="text" size="30" maxlength="50" name="mail" value=""><br>
+                Re-enter e-mail Address<br>
+                <input type="text" size="30" maxlength="50" name="mailConfirm" value="">
+                <br>(JAL may send you information on our products and services from time to time via e-mail. If you wish
+                to receive such e-mails, please enter e-mail Address.)
+              </td>
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <p style="background-color:#ffd3d3;padding: 2px 3px;">
+
+
+                  <input name="mailNewsHope" value="0" checked="checked" type="checkbox">
+
+                  <input type="hidden" name="mailNewsHope" value="1">
+                  Subscribe
+                  E-mail information.
+                </p>
+                <ul class="noteListA01">
+
+                  <li>You will receive flight irregularity information (delays, cancellations, etc.) for your booked
+                    flight by e-mail.
+                    If your reservation includes domestic sectors only, you will receive domestic flight irregularity
+                    information by e-mail in Japanese only.
+                    If your reservation includes international sectors, you will receive flight irregularity information
+                    in English for your booked international sectors.<br>
+                    If you choose Japanese as your preferred language after registering, you will receive e-mail news
+                    information in Japanese.<br>
+
+                    Even if you take off the tick , confirmation e-mails of the results of your various transactions on
+                    the JAL website will be sent to you. </li>
+                </ul><br>
+
+                <input name="mailType" value="1" checked="checked" type="checkbox">
+
+
+                E-mail information sent by HTML type.<br>
+                <input type="hidden" name="mailType" value="0">
+                <ul class="noteListA01">
+                  <li> HTML type of e-mail is the advanced type of regular e-mail (TEXT type) that can display picture
+                    image.
+                    If you wish to see HTML type e-mail, mail software is required that correspond to HTML type mail.
+                    Please confirm the HTML type e-mail application through software maker or service provider.</li>
+                </ul>
+              </td>
+
+            </tr>
+            <tr>
+              <th colspan="2">Mobile/cell-phone Address</th>
+
+
+
+              <td colspan="2">
+                <ul class="additionalInfoListA01">
+                  <li>Codes other than the following (.Period) (-hyphen) (_ underbar) (@) are not accepted.</li>
+                </ul><input type="text" size="30" maxlength="50" name="mobileMail" value=""><br>
+                Re-enter mobile/cell-phone address<br>
+                <input type="text" size="30" maxlength="50" name="mobileMailConfirm" value="">
+              </td>
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Date of birth (dd/mm/yyyy)</th>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                Day:
+                <input type="text" size="3" maxlength="2" name="birthDay" value="" class="text">
+                Month:
+                <input type="text" size="3" maxlength="2" name="birthMon" value="" class="text">
+                Year:
+                <input type="text" size="6" maxlength="4" name="birthYear" value="" class="text">
+                <!--input type="hidden" size="10" name="snd_birth"-->
+              </td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Gender</th>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+
+
+                <input type="radio" name="gender" value="M">
+                Male
+
+                <input type="radio" name="gender" value="F">
+                Female </td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Personal Identification Number (PIN)</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild"><a href="https://www.jal.co.jp/en/121/jr/pwchk.html"
+                  class="inPara" target="_blank"><img src="/common/img/icon_window_001.gif" width="14" height="11"
+                    alt="">unavailable PIN combination</a><br>
+                <input type="password" size="6" maxlength="6" name="pass" class="password" value=""> (Must be 6 numeric
+                charactors)</td>
+            </tr>
+            <tr>
+              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Re-enter PIN</th>
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="password" size="6" maxlength="6" name="passConfirm" class="password"></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th colspan="2" rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>Web Password</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                Web Passwords should contain characters from at least three of the following character classes:
+                Uppercase/lowercase English characters (A-Z, a-z), numbers (0-9), and symbols.<br />
+                *<a href="https://www.jal.co.jp/en/121/world/wp/info.html" class="inPara" target="_blank"><img
+                    src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Click here</a> for more
+                information on how to set your Web Password.<br />
+                <input type="password" size="16" maxlength="16" name="webPass" class="password" value=""> (Must be
+                between 8 and 16 digits in length)
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="password" size="16" maxlength="16" name="webPassConfirm" class="password"> Please re-enter
+                Web Password.
+              </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th rowspan="7">BUSINESS</th>
+              <th>Company Name</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild"><input type="text" size="40" maxlength="20" name="businessName"
+                  class="text" value=""></td>
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+
+            <tr>
+              <th>Department/Title</th>
+
+
+              <td colspan="2" class="pseudo-lastChild"><input type="text" size="40" maxlength="20"
+                  name="businessAffiliation" class="text" value=""></td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th>Address</th>
+
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <div>
+                  <input type="text" size="40" maxlength="20" name="businessAddress1" class="text" value=""
+                    style="margin-bottom:1">
+                  <br>
+                  <input type="text" size="40" maxlength="20" name="businessAddress2" class="text" value=""
+                    style="margin-bottom:1">
+                  <br>
+                  <input type="text" size="40" maxlength="20" name="businessAddress3" class="text" value=""
+                    style="margin-bottom:1">
+                  <!--input type="hidden" size="120" name="snd_coaddrs"-->
+                </div>
+              </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th>Post Code</th>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="text" size="4" maxlength="3" name="businessPostalCode1" class="text" value="">
+                -
+                <input type="text" size="5" maxlength="4" name="businessPostalCode2" class="text" value="">
+                ex)140-8637
+              </td>
+
+
+
+
+
+            </tr>
+            <tr>
+              <th>Phone Number</th>
+
+
+              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="businessTel1" value="">
+                -
+                <INPUT maxLength="4" size="6" name="businessTel2" value="">
+                -
+                <INPUT maxLength="4" size="6" name="businessTel3" value="">
+
+                ex)03-6733-3062</td>
+
+
+
+
+
+
+            </tr>
+            <tr>
+              <th>FAX Number</th>
+
+
+              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="businessFax1" value="">
+                -
+                <INPUT maxLength="4" size="6" name="businessFax2" value="">
+                -
+                <INPUT maxLength="4" size="6" name="businessFax3" value=""></td>
+
+
+
+
+
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
+
+
+
+        <!-- /customerInfoBlockA01 -->
+      </div>
+
+
+
+      <div class="actionBlockA01">
+        <table width="765" border="0" cellpadding="0" cellspacing="0" class="s3">
+          <tr>
+            <td class="formButton"><input type="image" class="image linkButtonA"
+                src="/jmb_new/enroll/img/link_button_next.gif" alt="Next" width="43" height="24"></td>
+          </tr>
+        </table>
+        <!-- /actionBlockA01 -->
+      </div>
+
+
+      <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
+
+
+      <div class="JMBNoteListA01">
+        <div class="noteItem">
+          If you have any inquires, please contact the <a href="https://www.jal.co.jp/121/jr/tel.html"
+            target="_blank"><img src="/common/img/icon_window_001.gif" alt="" height="11" width="14">JAL Mileage Bank
+            Center, Japan</a>.
+          <br>
+          <!-- /noteItem -->
+        </div>
+        <!-- /fareNoteList -->
+      </div>
+
+
+    </form>
+
+
+    <!-- /contentsGridJMB03 -->
+  </div>
+
+
+
+
+
+
+  <!-- [グローバルフッタ] -->
+  <!-- [rnSimpleFoot] -->
+  <div id="rnSimpleFoot">
+
+    <p id="rnSimpleFootCopy"><img src="/common_rn/img/txt_footer_copy_001_1.gif" width="241" height="11"
+        alt="Copyright &copy; Japan Airlines. All rights reserved."></p>
+
+  </div>
+
+  <script type="text/javascript"><!--
+var JLJS_RTTT_setupParams = {
+      _imgPath: "/common_rn/img/rtam.gif"
+    }
+//--></script>
+  <script type="text/javascript" src="/common_rn/js/rtam.js"></script>
+
+
+  <!-- /[rnSimpleFoot] -->
+
+
+</body>
+
+</html>
