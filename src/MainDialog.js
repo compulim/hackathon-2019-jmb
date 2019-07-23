@@ -24,7 +24,7 @@ export default class MainDialog extends ComponentDialog {
       async stepContext => await stepContext.prompt(
         'TEXT_PROMPT',
         {
-          prompt: MessageFactory.text('What is your name?', 'What is your name?', InputHints.ExpectingInput)
+          prompt: MessageFactory.text('What is your name?', InputHints.ExpectingInput)
         }
       ),
       async stepContext => {
@@ -35,37 +35,53 @@ export default class MainDialog extends ComponentDialog {
         switch (intent) {
           case 'FILL_NAME':
             const { personName: [personName] } = luisResult.entities;
-            const names = personName.split(' ');
-            const [familyName, ...foreNames] = names.length === 1 ? ['', personName] : names.reverse();
 
-            await context.sendActivity({
-              type: 'event',
-              name: 'SET_FIELD',
-              value: {
-                name: 'romajiForeName',
-                value: titleCase(foreNames.join(' '))
-              }
-            });
+            if (personName) {
+              const names = personName.split(' ');
+              const [firstName] = names.splice(0, 1) || [];
+              const [familyName] = names.splice(-1) || [];
+              const middleName = names.join(' ');
 
-            if (familyName) {
               await context.sendActivity({
                 type: 'event',
                 name: 'SET_FIELD',
                 value: {
-                  name: 'romajiFamilyName',
-                  value: titleCase(familyName)
+                  name: 'romajiForeName',
+                  value: titleCase(firstName)
+                }
+              });
+
+              if (familyName) {
+                await context.sendActivity({
+                  type: 'event',
+                  name: 'SET_FIELD',
+                  value: {
+                    name: 'romajiFamilyName',
+                    value: titleCase(familyName)
+                  }
+                });
+              }
+
+              if (names.length) {
+                await context.sendActivity({
+                  type: 'event',
+                  name: 'SET_FIELD',
+                  value: {
+                    name: 'middleName',
+                    value: titleCase(middleName)
+                  }
+                });
+              }
+
+              await context.sendActivity({
+                type: 'event',
+                name: 'SET_FIELD',
+                value: {
+                  name: 'embossName',
+                  value: personName.toUpperCase()
                 }
               });
             }
-
-            await context.sendActivity({
-              type: 'event',
-              name: 'SET_FIELD',
-              value: {
-                name: 'embossName',
-                value: personName.toUpperCase()
-              }
-            });
 
             break;
 
@@ -73,6 +89,42 @@ export default class MainDialog extends ComponentDialog {
             await context.sendActivity(
               'Sorry, I don\'t understand.'
             );
+
+            break;
+        }
+
+        return await stepContext.prompt(
+          'TEXT_PROMPT',
+          {
+            prompt: MessageFactory.text('What is your phone number?', InputHints.ExpectingInput)
+          }
+        );
+
+        // return await stepContext.next();
+      },
+      async stepContext => {
+        const { context } = stepContext;
+        const luisResult = await this.recognizer.executeLuisQuery(context);
+        const intent = LuisRecognizer.topIntent(luisResult);
+
+        console.log(luisResult.entities);
+
+        switch (intent) {
+          case 'FILL_PHONE_NUMBER':
+            const { phonenumber: [phoneNumber] } = luisResult.entities;
+
+            console.log(phoneNumber);
+
+            if (phoneNumber) {
+              await context.sendActivity({
+                type: 'event',
+                name: 'SET_FIELD',
+                value: {
+                  name: 'homeTel1',
+                  value: phoneNumber
+                }
+              });
+            }
 
             break;
         }

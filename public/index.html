@@ -1,669 +1,289 @@
-<!DOCTYPE HTML>
-<!-- PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" -->
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+
+<html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=Shift_Jis">
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Script-Type" content="text/javascript">
-  <title>Enrollment in JAL Mileage Bank</title>
+
+  <title>Registration : Enrollment in JAL Mileage Bank</title>
+
+
   <link rel="stylesheet" type="text/css" media="all" href="/common/css/base.css">
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/base2.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/base4.css">
   <link rel="stylesheet" type="text/css" media="print" href="/common/css/print.css">
   <link rel="stylesheet" type="text/css" media="all" href="/common/css/global_header_book2.css">
-  <link rel="stylesheet" type="text/css" media="all" href="/common/css/global_header_2.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/global_header.css">
   <link rel="stylesheet" type="text/css" media="all" href="/common/css/information_block.css">
   <link rel="stylesheet" type="text/css" media="all" href="/jmb_new/enroll/css/jmb.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/common/css/overwriteY15.css">
   <script type="text/javascript" src="/injectwebchat.js"></script>
   <script type="text/javascript" src="/common/js/common.js"></script>
+  <script type="text/javascript">
+	< !--Beginning of JavaScript
 
-  <SCRIPT LANGUAGE="JavaScript">
-<!--Beginning of JavaScript------------------
+    // エンボス氏名の自動補足処理
+    // 姓名の入力があり、かつエンボスの欄が空、かつ姓+名+1space で23バイト以下だったら自動補足を行う
+    function NameFocus(emboss) {
+      if ((document.EnrollActionForm_en.romajiForeName.value != "") && (document.EnrollActionForm_en.romajiFamilyName.value != "") &&
+        (document.EnrollActionForm_en.embossName.value == "")) {
 
-      // エンボス氏名の自動補足処理
-      // 姓名の入力があり、かつエンボスの欄が空、かつ姓+名+1space で23バイト以下だったら自動補足を行う
-      function NameFocus(emboss) {
-        if ((document.EnrollJRActionForm_en.romajiForeName.value != "") && (document.EnrollJRActionForm_en.romajiFamilyName.value != "") &&
-          (document.EnrollJRActionForm_en.embossName.value == "")) {
-
-          if ((document.EnrollJRActionForm_en.romajiForeName.value.length + document.EnrollJRActionForm_en.romajiFamilyName.value.length + 1) <= 23) {
-            emboss = document.EnrollJRActionForm_en.romajiForeName.value + " " + document.EnrollJRActionForm_en.romajiFamilyName.value;
-            document.EnrollJRActionForm_en.embossName.value = emboss.toUpperCase();
-          }
+        if ((document.EnrollActionForm_en.romajiForeName.value.length + document.EnrollActionForm_en.romajiFamilyName.value.length + 1) <= 23) {
+          emboss = document.EnrollActionForm_en.romajiForeName.value + " " + document.EnrollActionForm_en.romajiFamilyName.value;
+          document.EnrollActionForm_en.embossName.value = emboss.toUpperCase();
         }
-      }
-
-    function NumberCheck(Item) {
-      returnFlg = true;
-      var checkOK = "0123456789";
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            returnFlg = false;
-            break;
-          }
-        }
-      }
-      return returnFlg;
-    }
-
-
-    function CheckInputData() {
-      MyObj = document.forms[0];
-      //** First Name???????
-      if (MyObj.first_name.value == "") {
-        alert("Please enter First Name.");
-        MyObj.first_name.focus();
-        return false;
-      }
-      // ??????
-      Item = MyObj.first_name.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter First Name in english characters only.");
-          MyObj.first_name.focus();
-          return false;
-        }
-      }
-      //** Last Name???????
-      if (MyObj.last_name.value == "") {
-        alert("Please enter Last Name.");
-        MyObj.last_name.focus();
-        return false;
-      }
-      // ??????
-      Item = MyObj.last_name.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Last Name in english characters only.");
-          MyObj.last_name.focus();
-          return false;
-        }
-      }
-      //** SEX
-      if (MyObj.sex_type[0].checked == "" && MyObj.sex_type[1].checked == "") {
-        alert("Please enter your SEX.");
-        MyObj.sex_type[0].focus();
-        return false;
-      }
-      //** DATE OF BIRTH
-      if (MyObj.birth_y.value == "") {
-        alert("Please enter Birthday's year.");
-        MyObj.birth_y.focus();
-        return false;
-      }
-      var checkOK = "0123456789";
-      for (i = 0; i < MyObj.birth_y.value.length; i++) {
-        ch = MyObj.birth_y.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits in the\"DATE OF BIRTH - Year\" field.");
-            MyObj.birth_y.focus();
-            return false;
-          }
-        }
-      }
-      Item = MyObj.birth_y.value;
-      if (Item < "1882" || "2010" < Item) {
-        alert("Please enter Birthday's year certainly.");
-        MyObj.birth_y.focus();
-        return false;
-      }
-      var checkOK = "0123456789";
-      for (i = 0; i < MyObj.birth_m.value.length; i++) {
-        ch = MyObj.birth_m.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits in the\"DATE OF BIRTH - Month\" field.");
-            MyObj.birth_m.focus();
-            return false;
-          }
-        }
-      }
-      if (MyObj.birth_m.value == "") {
-        alert("Please enter Birthday's Month.");
-        MyObj.birth_m.focus();
-        return false;
-      }
-      var checkOK = "0123456789";
-      for (i = 0; i < MyObj.birth_d.value.length; i++) {
-        ch = MyObj.birth_d.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits in the\"DATE OF BIRTH - Day\" field.");
-            MyObj.birth_d.focus();
-            return false;
-          }
-        }
-      }
-      if (MyObj.birth_d.value == "") {
-        alert("Please enter Birthday's Day.");
-        MyObj.birth_d.focus();
-        return false;
-      }
-      // HOME - Address?????
-      //** Address
-      if (MyObj.home_addrs1.value == "") {
-        alert("Please enter your Address(HOME).");
-        MyObj.home_addrs1.focus();
-        return false;
-      }
-      Item = MyObj.home_addrs1.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(HOME) in english characters and digits only.");
-          MyObj.home_addrs1.focus();
-          return false;
-        }
-      }
-      Item = MyObj.home_addrs2.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(HOME) in english characters and digits only.");
-          MyObj.home_addrs2.focus();
-          return false;
-        }
-      }
-      Item = MyObj.home_addrs3.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(HOME) in english characters and digits only.");
-          MyObj.home_addrs3.focus();
-          return false;
-        }
-      }
-      Item = MyObj.home_addrs4.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(HOME) in english characters and digits only.");
-          MyObj.home_addrs4.focus();
-          return false;
-        }
-      }
-      //** Post Code
-      if (MyObj.home_zipno.value == "") {
-        alert("Please enter your Post Code(HOME).");
-        MyObj.home_zipno.focus();
-        return false;
-      }
-      var checkOK = "0123456789-()";
-      for (i = 0; i < MyObj.home_zipno.value.length; i++) {
-        ch = MyObj.home_zipno.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"Post Code(HOME)\" field.");
-            MyObj.home_zipno.focus();
-            return false;
-          }
-        }
-      }
-      //** Phone Number
-      if (MyObj.home_tel.value == "") {
-        alert("Please enter your Phone number(HOME).");
-        MyObj.home_tel.focus();
-        return false;
-      }
-      var checkOK = "0123456789-";
-      for (i = 0; i < MyObj.home_tel.value.length; i++) {
-        ch = MyObj.home_tel.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"Phone Number(HOME)\" field.");
-            MyObj.home_tel.focus();
-            return false;
-          }
-        }
-      }
-      // FAX Number
-      var checkOK = "0123456789-";
-      for (i = 0; i < MyObj.home_fax.value.length; i++) {
-        ch = MyObj.home_fax.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"FAX Number(HOME)\" field.");
-            MyObj.home_fax.focus();
-            return false;
-          }
-        }
-      }
-      //** PIN
-      if (MyObj.pin1.value == "") {
-        alert("Please enter your PIN.");
-        MyObj.pin1.focus();
-        return false;
-      }
-      var checkOK = "0123456789";
-      for (i = 0; i < MyObj.pin1.value.length; i++) {
-        ch = MyObj.pin1.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits in the\"PIN\" field.");
-            MyObj.pin1.focus();
-            return false;
-          }
-        }
-      }
-      if (MyObj.pin2.value == "") {
-        alert("Please enter your PIN(for confirmation).");
-        MyObj.pin2.focus();
-        return false;
-      }
-      var checkOK = "0123456789";
-      for (i = 0; i < MyObj.pin2.value.length; i++) {
-        ch = MyObj.pin2.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits in the\"PIN(for confirmation)\" field.");
-            MyObj.pin2.focus();
-            return false;
-          }
-        }
-      }
-      if (MyObj.pin1.value != MyObj.pin2.value) {
-        alert("Please re-enter your PIN and PIN(for confirmation).");
-        MyObj.pin1.focus();
-        return false;
-      }
-      // BUSINESS - Address
-      // Company Name
-      Item = MyObj.co_name.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Company Name in english characters and digits only.");
-          MyObj.co_name.focus();
-          return false;
-        }
-      }
-      // Department
-      if (MyObj.co_depa.value != "" && MyObj.co_name.value == "") {
-        alert("Please enter Company Name.");
-        MyObj.co_depa.focus();
-        return false;
-      }
-      Item = MyObj.co_depa.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Department in english characters and digits only.");
-          MyObj.co_depa.focus();
-          return false;
-        }
-      }
-      // Title
-      Item = MyObj.co_title.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Title in english characters and digits only.");
-          MyObj.co_title.focus();
-          return false;
-        }
-      }
-      // Street Address
-      Item = MyObj.co_addrs1.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(BUSINESS) in english characters and digits only.");
-          MyObj.co_addrs1.focus();
-          return false;
-        }
-      }
-      Item = MyObj.co_addrs2.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(BUSINESS) in english characters and digits only.");
-          MyObj.co_addrs2.focus();
-          return false;
-        }
-      }
-      Item = MyObj.co_addrs3.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(BUSINESS) in english characters and digits only.");
-          MyObj.co_addrs3.focus();
-          return false;
-        }
-      }
-      Item = MyObj.co_addrs4.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter Address(BUSINESS) in english characters and digits only.");
-          MyObj.co_addrs4.focus();
-          return false;
-        }
-      }
-      // Post Code
-      var checkOK = "0123456789-";
-      for (i = 0; i < MyObj.co_zipno.value.length; i++) {
-        ch = MyObj.co_zipno.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"Post Code(BUSINESS)\" field.");
-            MyObj.co_zipno.focus();
-            return false;
-          }
-        }
-      }
-      // Phone Number
-      var checkOK = "0123456789-";
-      for (i = 0; i < MyObj.co_tel.value.length; i++) {
-        ch = MyObj.co_tel.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"Phone Number(BUSINESS)\" field.");
-            MyObj.co_tel.focus();
-            return false;
-          }
-        }
-      }
-      // FAX Number
-      var checkOK = "0123456789-";
-      for (i = 0; i < MyObj.co_fax.value.length; i++) {
-        ch = MyObj.co_fax.value.charAt(i);
-        for (j = 0; j <= checkOK.length; j++) {
-          if (ch == checkOK.charAt(j))
-            break;
-          if (j == checkOK.length) {
-            alert("Please enter only digits and hyphen in the\"FAX Number(BUSINESS)\" field.");
-            MyObj.co_fax.focus();
-            return false;
-          }
-        }
-      }
-      // E-MAIL ADDRESS
-      Item = MyObj.email_add.value;
-      for (i = 0; i < Item.length; i++) {
-        ch = Item.charAt(i);
-        if (ch.charCodeAt() > 126) {
-          alert("Please enter E-mail Address in english characters and digits only.");
-          MyObj.email_add.focus();
-          return false;
-        }
-      }
-      if (MyObj.email_add.value != "") {
-        if (MyObj.email_DM[0].checked == "" && MyObj.email_DM[1].checked == "") {
-          alert("Please select to wish to receive information.");
-          MyObj.email_DM[0].focus();
-          return false;
-        }
-      }
-      //** Card_Type
-      if (MyObj.card_type[0].checked == "" && MyObj.card_type[1].checked == "") {
-        alert("Please enter Card_Type.");
-        MyObj.card_type[0].focus();
-        return false;
       }
     }
 
-// -- End of JavaScript code -------------- -->
+	// -- End of JavaScript code -------------- -->
 
-  </SCRIPT>
+  </script>
   <style type="text/css">
-    <!--
-    .nameField td input,
-    td.nameField input {
-      width: 150px;
+    .error a.inPara,
+    .error a.inPara:link,
+    .error a.inPara:visited {
+      color: #fff;
     }
 
-    ul.linkListB01 li {
-      background: none !important;
+    .error a.inPara:hover {
+      color: #cc0000;
+      background-color: #fff;
     }
-
-    div.commentFieldOrg h3 {
-      margin: 0 4px 4px;
-      font-size: 12px;
-      line-height: 1.2;
-    }
-
-    table.tableOrg01 {
-      margin: 5px 0px;
-      border-width: 1px 1px 1px 1px;
-      border-style: solid;
-      border-color: #990000;
-      border-collapse: collapse;
-      font-size: 12px;
-      background-color: #FFFFCC;
-    }
-
-    table.tableOrg01 th,
-    table.tableOrg01 td {
-      padding: 4px 5px;
-      border-width: 0;
-    }
-
-    table.tableOrg01 th {
-      text-align: left;
-      font-weight: normal;
-    }
-
-    table.tableOrg01 h3 {
-      margin: 0 0 4px;
-      font-size: 12px;
-      line-height: 1.2;
-      color: #990000;
-    }
-
-    table.tableOrg02 {
-      border-width: 1px 1px 1px 1px;
-      border-style: solid;
-      border-color: #999999;
-      border-collapse: collapse;
-      font-size: 12px;
-      background-color: #FFFFFF;
-    }
-
-    table.tableOrg02 th,
-    table.tableOrg02 td {
-      padding: 4px 5px;
-      border-width: 0;
-    }
-
-    table.tableOrg02 th {
-      text-align: left;
-      font-weight: normal;
-    }
-
-    table.tableOrg02 h3 {
-      margin: 0 0 4px;
-      font-size: 12px;
-      line-height: 1.2;
-      color: #000000;
-    }
-    -->
   </style>
+  <meta name="GENERATOR" content="MSHTML 8.00.7601.18751">
 </head>
 
 <body>
+  <!-- Header include -->
 
 
 
-
-
-  <link rel="stylesheet" href="/common/css/jmbweb_header_footer_2015_2.css" type="text/css" media="all">
-  <script type="text/javascript" src="/common_rn/js/common.js"></script>
-  <script type="text/javascript" src="/common_rn/js/common_rn.js"></script>
-  <script type="text/javascript" src="/common_rn/js/rollover.js"></script>
-
-
-  <!-- [rnSimpleHead] -->
-  <div id="rnSimpleHead">
-    <!-- [rnSimpleHeadL01] -->
-    <div id="rnSimpleHeadL01">
-      <h1 id="rnSimpleLogo01"><img src="/common_rn/img/header_logo_001_1.gif" width="381" height="35"
-          alt="JAL | JAPAN AIRLINES"></h1>
-    </div>
-    <!-- /[rnSimpleHeadL01] -->
-
-  </div>
-  <!-- /[rnSimpleHead] -->
-
-
+  <!-- [グローバルヘッダ(日本地区以外)] -->
+  <DIV id=globalHeaderB01>
+    <H1><IMG height=38 alt="JAL | JAPAN AIRLINES" src="/common/img/header_logo_001.gif" width=171></H1>
+    <DIV class="spacer"><img src="/common/img/clear.gif" width="1" height="5" alt=""></DIV>
+    <!-- /globalHeader -->
+  </DIV>
+  <!-- /[グローバルヘッダ(日本地区以外)] -->
 
 
   <div class="contentsGridJMB03">
+    <div class="spacer"><img src="/common/img/clear.gif" width="1" height="15" alt=""></div>
 
-    <table border="0" cellpadding="0" cellspacing="0" summary="" class="leadHeadingBlockJMB01">
-      <tr>
-        <th>
-          <h1>Enrollment in JAL Mileage Bank (* for resident in Japan only)</h1>
-        </th>
-      </tr>
-      <!-- /leadHeadingBlockMB01 -->
+    <!-- [ LeadHeading ] -->
+    <table class="leadHeadingBlockJMB01">
+      <tbody>
+        <tr>
+          <td>
+            <h1>Enrollment in JAL Mileage Bank</h1>
+          </td>
+        </tr>
+      </tbody>
     </table>
+    <!-- /[ LeadHeading ] -->
+
     <div class="leadTextBlockA01">
       <p>Please provide all of the required information below and click the Next button.</p>
       <!-- leadTextBlockA01 -->
     </div>
 
+    <!-- [ messages ] -->
 
+    <!-- /[ messages ] -->
 
     <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
 
-    <form action="/JmbWeb/AR/EnrollProposal_en.do" name="AR" method="post" target="_blank"></form>
-    <form action="/JmbWeb/ER/EnrollProposal_en.do" name="ER" method="post" target="_blank"></form>
-    <form action="/JmbWeb/SR/EnrollProposal_en.do" name="SR" method="post" target="_blank"></form>
-    <form name="EnrollJRActionForm_en" method="post" action="/JmbWeb/JR/EnrollConfirm_en.do">
-      <div><input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="699ccc79d3db3e87cbe291165715d1c5">
+    <form name="EnrollActionForm_en" method="post" action="/JmbWeb/AR/EnrollConfirm_en.do">
+      <div><input type="hidden" name="org.apache.struts.taglib.html.TOKEN" value="0429acd0970bfb6a6f547bc1ecebbbe0">
       </div>
-
-      <!--input type="hidden" name="LINK_ID" value=""-->
-
       <div class="customerInfoBlockA02">
         <h2>JAL Mileage Bank Application Form</h2>
 
         <ul class="additionalInfoListA01">
-          <li>Items with an asterisk (<img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"
-              class="reqMarkA01">) next to them are mandatory.</li>
+          <li>Items with an asterisk (<img src="/jmb_new/enroll/img/icon_reqmark_001.gif" alt="*" height="7" width="7">)
+            next to them are mandatory.</li>
           <li>Please input your name as it appears in your passport.</li>
-          <li>Please also note that post-office box will not be accepted as your home address or company address.</li>
-          <li>As a member in the JMB Japan region, you must be a resident in Japan. <br>
-            <h2>If you are not a resident in Japan, please click the applicable button for location of your residence.
-              <br></h2>
-            <a href="javascript:document.forms['AR'].submit();" class="withIconA"><img
-                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Americas</a>
-            <a href="javascript:document.forms['ER'].submit();" class="withIconA"><img
-                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Europe/Middle East/Africa</a>
-            <a href="javascript:document.forms['SR'].submit();" class="withIconA"><img
-                src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Asia/Oceania</a>
-          </li>
         </ul>
 
-        <table border="0" cellpadding="0" cellspacing="0" width="765" class="dataTableA01">
-          <col>
-          <col>
-          <col width="">
-          <col width="">
+        <table style="width: 765px;" class="dataTableA01">
+          <colgroup>
+            <col style="width: 110px;">
+            <col style="width: 215px;">
+            <col style="width: 220px;">
+            <col style="width: 220px;">
+          </colgroup>
           <tbody>
+            <tr class="pseudo-firstChild nameField">
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em><label for="honor">Honor</label></td>
+              <td colspan="2">
+                <select name="honor" id="honor">
+                  <option value="MR">Mr</option>
+                  <option value="MS">Ms</option>
+                  <option value="DR">Dr</option>
+                  <option value="PROF">Prof</option>
+                  <option value="REV">Rev</option>
+                </select>
+              </td>
+            </tr>
+            <!-- [ ローマ字姓名 ] -->
+            <tr class="pseudo-firstChild nameField">
+              <td class="rowTh" colspan="2" rowspan="2"><em class="reqMarkA01"><img
+                    src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em>Name<br>
+                (Please input your name as it appears in your passport.)</td>
 
-            <tr class="pseudo-firstChild">
-              <th rowspan="2" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
-                    height="7" width="7" alt="*"></em>NAME</th>
-
-
-              <td class="pseudo-lastChild">First Name:<input type="text" size="30" maxlength="15" name="romajiForeName"
-                  value="" class="text"> ex) JOHNROBERT
-                <br>* If you have a Middle Name, please enter it after your First Name.</td>
-
-
-
+              <td><label for="romajiForeName">First Name (Given Name)</label>
+                <input type="text" size="26" maxlength="17" id="romajiForeName" name="romajiForeName" value=""
+                  class="text">
+              </td>
+              <td class="pseudo-lastChild">
+                <label for="romajiFamilyName">Last Name (Family Name)</label> <input type="text" size="28"
+                  maxlength="15" id="romajiFamilyName" name="romajiFamilyName" value="" class="text">
+              </td>
 
 
             </tr>
-            <tr>
+            <!--/[ ローマ字姓名 ] -->
+            <!-- [ ミドル名 ] -->
+            <tr class="pseudo-firstChild nameField">
 
-
-              <td class="pseudo-lastChild">Last Name:<input type="text" size="30" maxlength="15" name="romajiFamilyName"
-                  value="" class="text"> ex) SMITH</td>
-
-
-
+              <td colspan="2"><label for="middleName">Middle Name</label>
+                <input type="text" size="30" maxlength="15" id="middleName" name="middleName" value="" class="text">
+              </td>
 
 
             </tr>
-
+            <!-- [ ミドル名 ] -->
+            <!-- [ エンボス名 ] -->
             <tr class="nameField">
-              <th colspan="2"><span class="pseudo-lastChild"><em class="reqMarkA01"><img
-                      src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em>Name as it will
-                  appear on Membership Card</span></th>
+              <td class="rowTh" colspan="2">
+                <em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7"
+                    alt="*"></em><label for="embossName">Name as it will appear on Membership Card</label>
+              </td>
 
-
-              <td colspan="2"> <input size="35" maxlength="23" name="embossName" onfocus="NameFocus()" value=""
-                  class="text" type="text">(Must be within 23 characters.)</td>
-
-
-
-
-
-            </tr>
-            <tr>
-              <th rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>HOME</th>
-              <th>Post Code</th>
-
-
-              <td colspan="2" class="pseudo-lastChild">
-                <input type="text" size="4" maxlength="3" name="homePostalCode1" value="" class="text">
-                -
-                <input type="text" size="5" maxlength="4" name="homePostalCode2" value="" class="text">
-                ex)140-8625</td>
-
-
-
+              <td colspan="2">
+                (Must be within 23 characters.) <input type="text" size="30" maxlength="23" id="embossName"
+                  name="embossName" onfocus="NameFocus()" value="" class="text">
+              </td>
 
 
             </tr>
+            <!-- /[ エンボス名 ] -->
+            <!-- [ 自宅住所 ] -->
             <tr>
-              <th>Address</th>
-
-
+              <td class="rowTh" rowspan="5"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>HOME</td>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Address</td>
 
               <td colspan="2" class="pseudo-lastChild">
                 <div>
-                  <input type="text" size="40" maxlength="20" name="homeAddress1" value="" class="text"
-                    style="margin-bottom:1"> ex) 4-11, Higashi-Shinagawa 2-Chome
-                  <br>
-                  <input type="text" size="40" maxlength="20" name="homeAddress2" value="" class="text"
-                    style="margin-bottom:1"> ex) Shinagawa-ku
-                  <br>
-                  <input type="text" size="40" maxlength="20" name="homeAddress3" value="" class="text"
-                    style="margin-bottom:1"> ex) Tokyo
-                  <br>
-                  Japan
+                  <input type="text" size="40" maxlength="30" name="homeAddress1" value="" title="Address1" class="text"
+                    style="margin-bottom: 1px"> e.g. 300 CONTINENTAL BLVD.<br>
+                  <input type="text" size="40" maxlength="30" name="homeAddress2" value="" title="Address2"
+                    class="text"> e.g. SUITE 401
                 </div>
-                <!--input type="hidden" size="120" name="snd_addrs"-->
+              </td>
+
+
+            </tr>
+            <!-- /[ 自宅住所 ] -->
+            <!-- [ 自宅都市名 ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="homeCityName">City</label></td>
+
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="30" size="25" id="homeCityName" name="homeCityName" value=""> e.g. EL SEGUNDO
+              </td>
+
+
+            </tr>
+            <!-- /[ 自宅都市名 ] -->
+            <!-- [ 州コード ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="homeStateCode1">State</label></td>
+
+
+              <td colspan="2" class="pseudo-lastChild">
+                <select name="homeStateCode1" id="homeStateCode1">
+                  <option value="" selected="selected">(Select here for US or Canada)</option>
+                  <option value=" ">--- US STATES/TERRITORIES ---------</option>
+                  <option value="AL">ALABAMA</option>
+                  <option value="AK">ALASKA</option>
+                  <option value="AZ">ARIZONA</option>
+                  <option value="AR">ARKANSAS</option>
+                  <option value="CA">CALIFORNIA</option>
+                  <option value="CO">COLORADO</option>
+                  <option value="CT">CONNECTICUT</option>
+                  <option value="DE">DELAWARE</option>
+                  <option value="DC">DIST OF COLUMBIA</option>
+                  <option value="FL">FLORIDA</option>
+                  <option value="GA">GEORGIA</option>
+                  <option value="HI">HAWAII</option>
+                  <option value="ID">IDAHO</option>
+                  <option value="IL">ILLINOIS</option>
+                  <option value="IN">INDIANA</option>
+                  <option value="IA">IOWA</option>
+                  <option value="KS">KANSAS</option>
+                  <option value="KY">KENTUCKY</option>
+                  <option value="LA">LOUISIANA</option>
+                  <option value="ME">MAINE</option>
+                  <option value="MD">MARYLAND</option>
+                  <option value="MA">MASSACHUSETTS</option>
+                  <option value="MI">MICHIGAN</option>
+                  <option value="MN">MINNESOTA</option>
+                  <option value="MS">MISSISSIPPI</option>
+                  <option value="MO">MISSOURI</option>
+                  <option value="MT">MONTANA</option>
+                  <option value="NE">NEBRASKA</option>
+                  <option value="NV">NEVADA</option>
+                  <option value="NH">NEW HAMPSHIRE</option>
+                  <option value="NJ">NEW JERSEY</option>
+                  <option value="NM">NEW MEXICO</option>
+                  <option value="NY">NEW YORK</option>
+                  <option value="NC">NORTH CAROLINA</option>
+                  <option value="ND">NORTH DAKOTA</option>
+                  <option value="OH">OHIO</option>
+                  <option value="OK">OKLAHOMA</option>
+                  <option value="OR">OREGON</option>
+                  <option value="PA">PENNSYLVANIA</option>
+                  <option value="PR">PUERTO RICO</option>
+                  <option value="RI">RHODE ISLAND</option>
+                  <option value="SC">SOUTH CAROLINA</option>
+                  <option value="SD">SOUTH DAKOTA</option>
+                  <option value="TN">TENNESSEE</option>
+                  <option value="TX">TEXAS</option>
+                  <option value="UT">UTAH</option>
+                  <option value="VT">VERMONT</option>
+                  <option value="VI">VIRGIN ISLANDS</option>
+                  <option value="VA">VIRGINIA</option>
+                  <option value="WA">WASHINGTON</option>
+                  <option value="WV">WEST VIRGINIA</option>
+                  <option value="WI">WISCONSIN</option>
+                  <option value="WY">WYOMING</option>
+                  <option value=" ">--- CANADIAN PROVINCES ------------</option>
+                  <option value="AB">ALBERTA</option>
+                  <option value="BC">BRITISH COLUMBIA</option>
+                  <option value="MB">MANITOBA</option>
+                  <option value="NB">NEW BRUNSWICK</option>
+                  <option value="NF">NEWFOUNDLAND</option>
+                  <option value="NT">NORTHWEST TERRITORIES</option>
+                  <option value="NS">NOVA SCOTIA</option>
+                  <option value="NU">NUNAVUT</option>
+                  <option value="ON">ONTARIO</option>
+                  <option value="PE">PRINCE EDWARD ISLAND</option>
+                  <option value="QC">QUEBEC</option>
+                  <option value="SK">SASKATCHEWAN</option>
+                  <option value="YT">YUKON</option>
+                </select>
+                <br>
+                <label for="homeStateCode2">State/Territory/Province(Other Countries) (Abbreviation Only)</label>
+                <input maxlength="4" size="6" id="homeStateCode2" name="homeStateCode2" value="">
               </td>
 
 
@@ -672,62 +292,67 @@
 
 
 
+            </tr>
+            <!-- /[ 州コード ] -->
+            <!-- [ 郵便番号 ] -->
+            <tr>
+              <td class="rowTh"><label for="homePostalCode1">Postcode/Zip</label></td>
 
-
-
-
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                (Cannot contain spaces) <input type="text" size="16" maxlength="10" id="homePostalCode1"
+                  name="homePostalCode1" value="" class="text"> e.g. 90245
+              </td>
 
 
             </tr>
+            <!-- /[ 郵便番号 ] -->
+            <!-- [ 自宅国名 ] -->
             <tr>
-              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>Phone number</th>
+              <td class="rowTh"><label>Country/Region</label></td>
+              <td colspan="2" class="pseudo-lastChild">
+                USA
+              </td>
+            </tr>
+            <!-- /[ 自宅国名 ] -->
+            <!-- [ 自宅電話番号 ] -->
+            <tr>
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em><label for="homeTel1">Phone Number</label></td>
 
-
-
-              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="homeTel1" value=""> - <INPUT
-                  maxLength="4" size="6" name="homeTel2" value=""> - <INPUT maxLength="4" size="6" name="homeTel3"
-                  value=""> Please enter your daytime phone number</td>
-
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="20" size="22" id="homeTel1" name="homeTel1" value=""> Please enter your daytime phone
+                number
+              </td>
 
 
             </tr>
+            <!-- /[ 自宅電話番号 ] -->
+            <!-- [ 自宅FAX番号 ] -->
             <tr>
-              <th colspan="2">FAX number</th>
+              <td class="rowTh" colspan="2"><label for="homeFax1">FAX Number</label></td>
 
-
-              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="homeFax1" value="">
-                -
-                <INPUT maxLength="4" size="6" name="homeFax2" value="">
-                -
-                <INPUT maxLength="4" size="6" name="homeFax3" value=""></td>
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="20" size="22" id="homeFax1" name="homeFax1" value="">
+              </td>
 
 
             </tr>
+            <!-- /[ 自宅FAX番号 ] -->
+            <!-- [ メールアドレス ] -->
             <tr>
-              <th colspan="2" rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
-                    height="7" width="7" alt="*"></em>e-mail Address</th>
+              <td class="rowTh" colspan="2" rowspan="3"><em class="reqMarkA01"><img
+                    src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em><label
+                  for="mail">e-mail Address</label></td>
 
 
-
-              <td colspan="2">
+              <td colspan="2" class="pseudo-lastChild">
                 <ul class="additionalInfoListA01">
-                  <li>Please input the address for cell- phone or PHS into "Mobile/Cell-phone address".</li>
                   <li>Codes other than the following (.Period) (-hyphen) (_ underbar) (@) are not accepted.</li>
-                </ul><input type="text" size="30" maxlength="50" name="mail" value=""><br>
-                Re-enter e-mail Address<br>
-                <input type="text" size="30" maxlength="50" name="mailConfirm" value="">
-                <br>(JAL may send you information on our products and services from time to time via e-mail. If you wish
-                to receive such e-mails, please enter e-mail Address.)
+                </ul>
+                <input type="text" size="30" maxlength="50" id="mail" name="mail" title="e-mail Address" value=""><br>
+                <label for="mailConfirm">Re-enter e-mail Address</label><br>
+                <input type="text" size="30" maxlength="50" id="mailConfirm" name="mailConfirm"
+                  title="e-mail Address(Re-enter)" value="">
               </td>
 
 
@@ -739,130 +364,105 @@
 
 
 
-
-
             </tr>
+            <!-- /[ メールアドレス ] -->
+            <!-- [ メールタイプ ] -->
             <tr>
-
-
               <td colspan="2" class="pseudo-lastChild">
                 <p style="background-color:#ffd3d3;padding: 2px 3px;">
 
-
-                  <input name="mailNewsHope" value="0" checked="checked" type="checkbox">
-
+                  <label><input name="mailNewsHope" value="0" type="checkbox">Subscribe E-mail information.</label><br>
                   <input type="hidden" name="mailNewsHope" value="1">
-                  Subscribe
-                  E-mail information.
-                </p>
-                <ul class="noteListA01">
-
-                  <li>You will receive flight irregularity information (delays, cancellations, etc.) for your booked
-                    flight by e-mail.
-                    If your reservation includes domestic sectors only, you will receive domestic flight irregularity
-                    information by e-mail in Japanese only.
-                    If your reservation includes international sectors, you will receive flight irregularity information
-                    in English for your booked international sectors.<br>
-                    If you choose Japanese as your preferred language after registering, you will receive e-mail news
-                    information in Japanese.<br>
-
-                    Even if you take off the tick , confirmation e-mails of the results of your various transactions on
-                    the JAL website will be sent to you. </li>
-                </ul><br>
-
-                <input name="mailType" value="1" checked="checked" type="checkbox">
 
 
-                E-mail information sent by HTML type.<br>
-                <input type="hidden" name="mailType" value="0">
-                <ul class="noteListA01">
-                  <li> HTML type of e-mail is the advanced type of regular e-mail (TEXT type) that can display picture
-                    image.
-                    If you wish to see HTML type e-mail, mail software is required that correspond to HTML type mail.
-                    Please confirm the HTML type e-mail application through software maker or service provider.</li>
-                </ul>
+                  <ul class="noteListA01 mb15">
+                    <li>* If you mark the box above, you will receive the latest information and special offers plus
+                      much more from JAL by e-mail.</li>
+                    <li>* You can change your preference at any time after enrollment.<br>
+                      You will still receive emails from JAL related to your online activities (such as mileage
+                      transactions), information about flight irregularities, and important notifications about JAL and
+                      the JMB program even if you choose not to receive emails from JAL and our affiliates.
+                    </li>
+                  </ul>
+
+
+                  <label><input name="mailType" value="1" type="checkbox">E-mail information sent by HTML
+                    type.</label><br>
+                  <input type="hidden" name="mailType" value="0">
+
+
+                  <ul class="noteListA01">
+                    <li>* HTML type of e-mail is the advanced type of regular e-mail (TEXT type) that can display
+                      picture image.</li>
+                    <li>* If you wish to see HTML type e-mail, mail software is required that correspond to HTML type
+                      mail. Please confirm the HTML type e-mail application through software maker or service provider.
+                    </li>
+                    <li>* Even if you untick the box, you will still receive periodic e-mail information distributions
+                      in HTML format.</li>
+                  </ul>
               </td>
-
             </tr>
+            <!-- /[ メールタイプ ] -->
+            <!-- [ メール希望言語 ] -->
             <tr>
-              <th colspan="2">Mobile/cell-phone Address</th>
-
-
-
-              <td colspan="2">
-                <ul class="additionalInfoListA01">
-                  <li>Codes other than the following (.Period) (-hyphen) (_ underbar) (@) are not accepted.</li>
-                </ul><input type="text" size="30" maxlength="50" name="mobileMail" value=""><br>
-                Re-enter mobile/cell-phone address<br>
-                <input type="text" size="30" maxlength="50" name="mobileMailConfirm" value="">
+              <td colspan="2" class="pseudo-lastChild">
+                e-mail Language<br>
+                <label><input type="radio" name="mailHopeLanguage" value="2" checked="checked">English</label>
+                <label><input type="radio" name="mailHopeLanguage" value="1" style="margin-left: 12px;">Japanese</label>
               </td>
-
-
-
-
-
-
-
-
-
-
             </tr>
+            <!-- /[ メール希望言語 ] -->
+            <!-- [ 生年月日 ] -->
             <tr>
-              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>Date of birth (dd/mm/yyyy)</th>
-
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>Date of birth (mm/dd/yyyy)</td>
 
               <td colspan="2" class="pseudo-lastChild">
-                Day:
-                <input type="text" size="3" maxlength="2" name="birthDay" value="" class="text">
-                Month:
-                <input type="text" size="3" maxlength="2" name="birthMon" value="" class="text">
-                Year:
-                <input type="text" size="6" maxlength="4" name="birthYear" value="" class="text">
-                <!--input type="hidden" size="10" name="snd_birth"-->
+                Month: <input type="text" size="3" maxlength="2" name="birthMon" value="" title="Date of birth Month"
+                  class="text">
+                Day: <input type="text" size="3" maxlength="2" name="birthDay" value="" title="Date of birth Day"
+                  class="text">
+                Year: <input type="text" size="6" maxlength="4" name="birthYear" value="" title="Date of birth Year"
+                  class="text">
               </td>
 
 
-
-
-
             </tr>
+            <!-- /[ 生年月日 ] -->
+            <!-- [ 性別 ] -->
             <tr>
-              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>Gender</th>
-
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em>Gender</td>
 
               <td colspan="2" class="pseudo-lastChild">
-
-
-                <input type="radio" name="gender" value="M">
-                Male
-
-                <input type="radio" name="gender" value="F">
-                Female </td>
-
-
-
+                <label><input type="radio" name="gender" value="M">Male</label>
+                <label><input type="radio" name="gender" value="F" style="margin-left: 12px;">Female</label>
+              </td>
 
 
             </tr>
+
+            <!-- /[ 性別 ] -->
+            <!-- [ パスワード ] -->
             <tr>
-              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>Personal Identification Number (PIN)</th>
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em><label for="pass">Personal Identification Number (PIN)</label>
+              </td>
 
 
 
               <td colspan="2" class="pseudo-lastChild"><a href="https://www.jal.co.jp/en/121/jr/pwchk.html"
                   class="inPara" target="_blank"><img src="/common/img/icon_window_001.gif" width="14" height="11"
-                    alt="">unavailable PIN combination</a><br>
-                <input type="password" size="6" maxlength="6" name="pass" class="password" value=""> (Must be 6 numeric
-                charactors)</td>
+                    alt="opens in new window">unavailable PIN combination</a><br>
+                (Must be 6 numeric charactors) <input type="password" size="6" maxlength="6" id="pass" title="Password"
+                  name="pass" class="password" value=""></td>
             </tr>
             <tr>
-              <th colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
-                    width="7" alt="*"></em>Re-enter PIN</th>
+              <td class="rowTh" colspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
+                    height="7" width="7" alt="*"></em><label for="passConfirm">Re-enter PIN</label></td>
               <td colspan="2" class="pseudo-lastChild">
-                <input type="password" size="6" maxlength="6" name="passConfirm" class="password"></td>
+                <input type="password" size="6" maxlength="6" id="passConfirm" title="Password(Re-enter)"
+                  name="passConfirm" class="password"></td>
 
 
 
@@ -880,9 +480,12 @@
 
 
             </tr>
+            <!-- /[ パスワード（確認） ] -->
+            <!-- [ Webパスワード ] -->
             <tr>
-              <th colspan="2" rowspan="2"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif"
-                    height="7" width="7" alt="*"></em>Web Password</th>
+              <td class="rowTh" colspan="2" rowspan="2"><em class="reqMarkA01"><img
+                    src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em><label
+                  for="webPass">Web Password</label></td>
 
 
 
@@ -890,16 +493,17 @@
                 Web Passwords should contain characters from at least three of the following character classes:
                 Uppercase/lowercase English characters (A-Z, a-z), numbers (0-9), and symbols.<br />
                 *<a href="https://www.jal.co.jp/en/121/world/wp/info.html" class="inPara" target="_blank"><img
-                    src="/common/img/icon_window_001.gif" width="14" height="11" alt="">Click here</a> for more
-                information on how to set your Web Password.<br />
-                <input type="password" size="16" maxlength="16" name="webPass" class="password" value=""> (Must be
-                between 8 and 16 digits in length)
+                    src="/common/img/icon_window_001.gif" width="14" height="11" alt="opens in new window">Click
+                  here</a> for more information on how to set your Web Password.<br />
+                (Must be between 8 and 16 digits in length) <input type="password" size="16" maxlength="16" id="webPass"
+                  title="webPassword" name="webPass" class="password" value="">
               </td>
             </tr>
             <tr>
               <td colspan="2" class="pseudo-lastChild">
-                <input type="password" size="16" maxlength="16" name="webPassConfirm" class="password"> Please re-enter
-                Web Password.
+                <label for="webPassConfirm">Please re-enter Web Password.</label> <input type="password" size="16"
+                  maxlength="16" id="webPassConfirm" title="Web Password(Re-enter)" name="webPassConfirm"
+                  class="password">
               </td>
 
 
@@ -918,17 +522,37 @@
 
 
             </tr>
+            <!-- /[ Webパスワード（確認） ] -->
+            <!-- [ 郵便物送付先 ] -->
             <tr>
-              <th rowspan="7">BUSINESS</th>
-              <th>Company Name</th>
+              <td class="rowTh" colspan="2" rowspan="2"><em class="reqMarkA01"><img
+                    src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7" width="7" alt="*"></em>Mailing Address
+              </td>
+              <td colspan="2" class="pseudo-lastChild">
+                <label><input type="radio" name="dmlId" value="3" checked="checked">Home</label>
+                <label><input type="radio" name="dmlId" value="4" style="margin-left: 12px;">Business</label>
+              </td>
+            </tr>
+            <!-- /[ 郵便物送付先 ] -->
+            <!-- [ 希望言語 ] -->
+            <tr>
+              <td colspan="2" class="pseudo-lastChild">Language Preference<br>
+                <label><input type="radio" name="hopeLanguage" value="2" checked="checked">English</label>
+                <label><input type="radio" name="hopeLanguage" value="1" style="margin-left: 12px;">Japanese</label>
+              </td>
+            </tr>
+            <!-- /[ 希望言語 ] -->
+            <!-- [ 勤務先名 ] -->
+            <tr>
+              <td class="rowTh" rowspan="10">BUSINESS</td>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="businessName">Company Name</label></td>
 
 
-
-              <td colspan="2" class="pseudo-lastChild"><input type="text" size="40" maxlength="20" name="businessName"
-                  class="text" value=""></td>
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="text" size="40" maxlength="40" id="businessName" name="businessName" value="" class="text">
+                e.g. JAPAN AIRLINES
+              </td>
 
 
 
@@ -939,171 +563,311 @@
 
 
             </tr>
-
+            <!-- /[ 勤務先名 ] -->
+            <!-- [ 所属部課名 ] -->
             <tr>
-              <th>Department/Title</th>
+              <td class="rowTh"><label for="businessAffiliation">Department</label></td>
 
-
-              <td colspan="2" class="pseudo-lastChild"><input type="text" size="40" maxlength="20"
-                  name="businessAffiliation" class="text" value=""></td>
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="text" size="40" maxlength="40" id="businessAffiliation" name="businessAffiliation" value=""
+                  class="text"> e.g. ADMINISTRATION
+              </td>
 
 
             </tr>
+            <!-- /[ 所属部課名 ] -->
+            <!-- [ 役職名 ] -->
             <tr>
-              <th>Address</th>
+              <td class="rowTh"><label for="businessTitle">Title</label></td>
+
+              <td colspan="2" class="pseudo-lastChild">
+                <input type="text" size="40" maxlength="40" id="businessTitle" name="businessTitle" value=""
+                  class="text"> e.g. MANAGER
+              </td>
 
 
+            </tr>
+            <!-- /[ 役職名 ] -->
+            <!-- [ 勤務先住所 ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em>Address</td>
 
               <td colspan="2" class="pseudo-lastChild">
                 <div>
-                  <input type="text" size="40" maxlength="20" name="businessAddress1" class="text" value=""
-                    style="margin-bottom:1">
-                  <br>
-                  <input type="text" size="40" maxlength="20" name="businessAddress2" class="text" value=""
-                    style="margin-bottom:1">
-                  <br>
-                  <input type="text" size="40" maxlength="20" name="businessAddress3" class="text" value=""
-                    style="margin-bottom:1">
-                  <!--input type="hidden" size="120" name="snd_coaddrs"-->
+                  <input type="text" size="40" maxlength="30" name="businessAddress1" title="BusinessAddress1" value=""
+                    class="text" style="margin-bottom: 1px"> e.g. 300 CONTINENTAL BLVD.<br>
+                  <input type="text" size="40" maxlength="30" name="businessAddress2" title="BusinessAddress2" value=""
+                    class="text"> e.g. SUITE 401
                 </div>
               </td>
 
 
+            </tr>
+            <!-- /[ 勤務先住所 ] -->
+            <!-- [ 勤務先都市名 ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="businessCityName">City</label></td>
 
-
-
-
-
-
-
-
-
-
-
-
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="30" size="25" id="businessCityName" name="businessCityName" value="" class="text">
+                e.g. EL SEGUNDO
+              </td>
 
 
             </tr>
+            <!-- /[ 勤務先都市名 ] -->
+            <!-- [ 勤務先州コード ] -->
             <tr>
-              <th>Post Code</th>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="businessStateCode1">State</label></td>
 
 
               <td colspan="2" class="pseudo-lastChild">
-                <input type="text" size="4" maxlength="3" name="businessPostalCode1" class="text" value="">
-                -
-                <input type="text" size="5" maxlength="4" name="businessPostalCode2" class="text" value="">
-                ex)140-8637
+                <select name="businessStateCode1" id="businessStateCode1">
+                  <option value="" selected="selected">(Select here for US or Canada)</option>
+                  <option value=" ">--- US STATES/TERRITORIES ---------</option>
+                  <option value="AL">ALABAMA</option>
+                  <option value="AK">ALASKA</option>
+                  <option value="AZ">ARIZONA</option>
+                  <option value="AR">ARKANSAS</option>
+                  <option value="CA">CALIFORNIA</option>
+                  <option value="CO">COLORADO</option>
+                  <option value="CT">CONNECTICUT</option>
+                  <option value="DE">DELAWARE</option>
+                  <option value="DC">DIST OF COLUMBIA</option>
+                  <option value="FL">FLORIDA</option>
+                  <option value="GA">GEORGIA</option>
+                  <option value="HI">HAWAII</option>
+                  <option value="ID">IDAHO</option>
+                  <option value="IL">ILLINOIS</option>
+                  <option value="IN">INDIANA</option>
+                  <option value="IA">IOWA</option>
+                  <option value="KS">KANSAS</option>
+                  <option value="KY">KENTUCKY</option>
+                  <option value="LA">LOUISIANA</option>
+                  <option value="ME">MAINE</option>
+                  <option value="MD">MARYLAND</option>
+                  <option value="MA">MASSACHUSETTS</option>
+                  <option value="MI">MICHIGAN</option>
+                  <option value="MN">MINNESOTA</option>
+                  <option value="MS">MISSISSIPPI</option>
+                  <option value="MO">MISSOURI</option>
+                  <option value="MT">MONTANA</option>
+                  <option value="NE">NEBRASKA</option>
+                  <option value="NV">NEVADA</option>
+                  <option value="NH">NEW HAMPSHIRE</option>
+                  <option value="NJ">NEW JERSEY</option>
+                  <option value="NM">NEW MEXICO</option>
+                  <option value="NY">NEW YORK</option>
+                  <option value="NC">NORTH CAROLINA</option>
+                  <option value="ND">NORTH DAKOTA</option>
+                  <option value="OH">OHIO</option>
+                  <option value="OK">OKLAHOMA</option>
+                  <option value="OR">OREGON</option>
+                  <option value="PA">PENNSYLVANIA</option>
+                  <option value="PR">PUERTO RICO</option>
+                  <option value="RI">RHODE ISLAND</option>
+                  <option value="SC">SOUTH CAROLINA</option>
+                  <option value="SD">SOUTH DAKOTA</option>
+                  <option value="TN">TENNESSEE</option>
+                  <option value="TX">TEXAS</option>
+                  <option value="UT">UTAH</option>
+                  <option value="VT">VERMONT</option>
+                  <option value="VI">VIRGIN ISLANDS</option>
+                  <option value="VA">VIRGINIA</option>
+                  <option value="WA">WASHINGTON</option>
+                  <option value="WV">WEST VIRGINIA</option>
+                  <option value="WI">WISCONSIN</option>
+                  <option value="WY">WYOMING</option>
+                  <option value=" ">--- CANADIAN PROVINCES ------------</option>
+                  <option value="AB">ALBERTA</option>
+                  <option value="BC">BRITISH COLUMBIA</option>
+                  <option value="MB">MANITOBA</option>
+                  <option value="NB">NEW BRUNSWICK</option>
+                  <option value="NF">NEWFOUNDLAND</option>
+                  <option value="NT">NORTHWEST TERRITORIES</option>
+                  <option value="NS">NOVA SCOTIA</option>
+                  <option value="NU">NUNAVUT</option>
+                  <option value="ON">ONTARIO</option>
+                  <option value="PE">PRINCE EDWARD ISLAND</option>
+                  <option value="QC">QUEBEC</option>
+                  <option value="SK">SASKATCHEWAN</option>
+                  <option value="YT">YUKON</option>
+                </select>
+                <br>
+                <label for="businessStateCode2">State/Territory/Province(Other Countries) (Abbreviation Only)</label>
+                <input maxLength="4" size="6" id="businessStateCode2" name="businessStateCode2" value="">
               </td>
 
 
 
 
 
-            </tr>
-            <tr>
-              <th>Phone Number</th>
-
-
-              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="businessTel1" value="">
-                -
-                <INPUT maxLength="4" size="6" name="businessTel2" value="">
-                -
-                <INPUT maxLength="4" size="6" name="businessTel3" value="">
-
-                ex)03-6733-3062</td>
-
 
 
 
 
 
             </tr>
+            <!-- /[ 勤務先州コード ] -->
+            <!-- [ 勤務先郵便番号 ] -->
             <tr>
-              <th>FAX Number</th>
+              <td class="rowTh"><label for="businessPostalCode1">Postcode/Zip</label></td>
+
+              <td colspan="2" class="pseudo-lastChild">
+                (Cannot contain spaces) <input type="text" size="16" maxlength="10" id="businessPostalCode1"
+                  name="businessPostalCode1" value="" class="text"> e.g. 90245
+              </td>
 
 
-              <td colspan="2" class="pseudo-lastChild"><INPUT maxLength="6" size="6" name="businessFax1" value="">
-                -
-                <INPUT maxLength="4" size="6" name="businessFax2" value="">
-                -
-                <INPUT maxLength="4" size="6" name="businessFax3" value=""></td>
+            </tr>
+            <!-- /[ 勤務先郵便番号 ] -->
+            <!-- [ 勤務先国名 ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="businessCountry">Country/Region</label></td>
+
+              <td colspan="2" class="pseudo-lastChild">
+                <select name="businessCountry" id="businessCountry">
+                  <option value="" selected="selected">(not selected)</option>
+                  <option value="ANGUILLA">ANGUILLA</option>
+                  <option value="ANTIGUA &amp; BARBUDA">ANTIGUA &amp; BARBUDA</option>
+                  <option value="ARGENTINA">ARGENTINA</option>
+                  <option value="ARUBA">ARUBA</option>
+                  <option value="BAHAMAS">BAHAMAS</option>
+                  <option value="BARBADOS">BARBADOS</option>
+                  <option value="BELIZE">BELIZE</option>
+                  <option value="BERMUDA">BERMUDA</option>
+                  <option value="BOLIVIA">BOLIVIA</option>
+                  <option value="BRAZIL">BRAZIL</option>
+                  <option value="BRITISH VIRGIN IS">BRITISH VIRGIN IS</option>
+                  <option value="CANADA">CANADA</option>
+                  <option value="CAYMAN ISLANDS">CAYMAN ISLANDS</option>
+                  <option value="CHILE">CHILE</option>
+                  <option value="COLOMBIA">COLOMBIA</option>
+                  <option value="COSTA RICA">COSTA RICA</option>
+                  <option value="CUBA">CUBA</option>
+                  <option value="DOMINICA">DOMINICA</option>
+                  <option value="DOMINICAN REPUBLIC">DOMINICAN REPUBLIC</option>
+                  <option value="ECUADOR">ECUADOR</option>
+                  <option value="EL SALVADOR">EL SALVADOR</option>
+                  <option value="FALKLAND ISLANDS">FALKLAND ISLANDS</option>
+                  <option value="FRENCH GUIANA">FRENCH GUIANA</option>
+                  <option value="GRENADA">GRENADA</option>
+                  <option value="GUADELOUPE">GUADELOUPE</option>
+                  <option value="GUATEMALA">GUATEMALA</option>
+                  <option value="GUAM">GUAM (U.S.A)</option>
+                  <option value="GUYANA">GUYANA</option>
+                  <option value="HAITI">HAITI</option>
+                  <option value="HONDURAS">HONDURAS</option>
+                  <option value="JAMAICA">JAMAICA</option>
+                  <option value="MARSHALL ISLANDS">MARSHALL ISLANDS</option>
+                  <option value="MARTINIQUE">MARTINIQUE</option>
+                  <option value="MEXICO">MEXICO</option>
+                  <option value="MONTSERRAT">MONTSERRAT</option>
+                  <option value="NETHERLANDS ANTILLES">NETHERLANDS ANTILLES</option>
+                  <option value="NICARAGUA">NICARAGUA</option>
+                  <option value="N. MARIANA ISLANDS">NORTHERN MARIANA ISLANDS</option>
+                  <option value="PANAMA">PANAMA</option>
+                  <option value="PALAU">PALAU</option>
+                  <option value="PARAGUAY">PARAGUAY</option>
+                  <option value="PERU">PERU</option>
+                  <option value="PUERTO RICO">PUERTO RICO</option>
+                  <option value="ST KITTS &amp; NEVIS">ST KITTS &amp; NEVIS</option>
+                  <option value="ST LUCIA">ST LUCIA</option>
+                  <option value="ST PIERRE &amp; MIQUELON">ST PIERRE &amp; MIQUELON</option>
+                  <option value="ST VINCENT &amp; GRENADI">ST VINCENT &amp; GRENADI</option>
+                  <option value="SURINAME">SURINAME</option>
+                  <option value="TRINIDAD &amp; TOBAGO">TRINIDAD &amp; TOBAGO</option>
+                  <option value="TURKS &amp; CAICOS IS">TURKS &amp; CAICOS IS</option>
+                  <option value="URUGUAY">URUGUAY</option>
+                  <option value="USA">USA</option>
+                  <option value="VENEZUELA">VENEZUELA</option>
+                </select>
+              </td>
 
 
+            </tr>
+            <!-- /[ 勤務先国名 ] -->
+            <!-- [ 勤務先電話番号 ] -->
+            <tr>
+              <td class="rowTh"><em class="reqMarkA01"><img src="/jmb_new/enroll/img/icon_reqmark_001.gif" height="7"
+                    width="7" alt="*"></em><label for="businessTel1">Phone Number</label></td>
+
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="20" size="22" id="businessTel1" name="businessTel1" value="">
+              </td>
 
 
+            </tr>
+            <!-- /[ 勤務先電話番号 ] -->
+            <!-- [ 勤務先FAX ] -->
+            <tr>
+              <td class="rowTh"><label for="businessFax1">FAX Number</label></td>
 
+              <td colspan="2" class="pseudo-lastChild">
+                <input maxlength="20" size="22" id="businessFax1" name="businessFax1" value="">
+              </td>
+
+
+            </tr>
+            <!-- /[ 勤務先FAX ] -->
+          </tbody>
+        </table>
+        <!-- [ 地域（SSU/SSZ）初期化]-->
+        <input type="hidden" name="sszssu" value="">
+        <!-- /[ 地域（SSU/SSZ）初期化]-->
+        <div class="spacer"><img src="/common/img/clear.gif" width="1" height="15" alt=""></div>
+      </div>
+
+      <div class="actionBlockA01">
+        <table style="width: 765px;" class="s3">
+          <tbody>
+            <tr>
+              <td class="formButton">
+                <input style="width: 43px; height: 24px;" type="image" class="image linkButtonA"
+                  src="/jmb_new/enroll/img/link_button_next.gif" alt="Next">
+              </td>
             </tr>
           </tbody>
         </table>
-
-        <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
-
-
-
-        <!-- /customerInfoBlockA01 -->
       </div>
 
-
-
-      <div class="actionBlockA01">
-        <table width="765" border="0" cellpadding="0" cellspacing="0" class="s3">
-          <tr>
-            <td class="formButton"><input type="image" class="image linkButtonA"
-                src="/jmb_new/enroll/img/link_button_next.gif" alt="Next" width="43" height="24"></td>
-          </tr>
-        </table>
-        <!-- /actionBlockA01 -->
-      </div>
-
-
-      <div class="spacer"><img src="/common/img/clear.gif" width="1" height="25" alt=""></div>
-
+      <div class="spacer"><img src="/common/img/clear.gif" width="1" height="15" alt=""></div>
 
       <div class="JMBNoteListA01">
-        <div class="noteItem">
-          If you have any inquires, please contact the <a href="https://www.jal.co.jp/121/jr/tel.html"
-            target="_blank"><img src="/common/img/icon_window_001.gif" alt="" height="11" width="14">JAL Mileage Bank
-            Center, Japan</a>.
-          <br>
-          <!-- /noteItem -->
+        <div class="noteItem" style="padding-bottom: 21px;">
+          <h3>Contact Us</h3>Please contact the <a href="http://www.jal.co.jp/en/information/jmb/index_ar.html">JMB
+            center</a> of your membership registration
         </div>
-        <!-- /fareNoteList -->
       </div>
 
-
     </form>
-
-
-    <!-- /contentsGridJMB03 -->
   </div>
 
 
 
 
 
-
-  <!-- [グローバルフッタ] -->
-  <!-- [rnSimpleFoot] -->
-  <div id="rnSimpleFoot">
-
-    <p id="rnSimpleFootCopy"><img src="/common_rn/img/txt_footer_copy_001_1.gif" width="241" height="11"
-        alt="Copyright &copy; Japan Airlines. All rights reserved."></p>
-
+  <!-- [グローバルフッタ(日本地区以外)] -->
+  <div id="globalFooterA01">
+    <address class="copy">Copyright &copy; Japan Airlines. All rights reserved.</address>
+    <!-- /globalFooter -->
   </div>
-
-<!--
-  <script type="text/javascript"><!--
+  <script type="text/javascript">< !--
 var JLJS_RTTT_setupParams = {
       _imgPath: "/common_rn/img/rtam.gif"
     }
 //--></script>
   <script type="text/javascript" src="/common_rn/js/rtam.js"></script>
--->
 
-  <!-- /[rnSimpleFoot] -->
+  <!-- /[グローバルフッタ(日本地区以外)] -->
+
+
+
+
 </body>
 
 </html>

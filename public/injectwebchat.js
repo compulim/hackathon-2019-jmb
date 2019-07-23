@@ -1,3 +1,8 @@
+const AUTO_ANSWERS = {
+  'What is your name?': 'John Lennon.',
+  'What is your phone number?': 'My number is 425-882-8080.'
+};
+
 function createElement(tag, attributes = {}, ...children) {
   const element = document.createElement(tag);
 
@@ -89,6 +94,15 @@ async function main() {
         }
 
         input.value = value;
+      }
+
+      if (activityType === 'message') {
+        const answer = AUTO_ANSWERS[activity.text];
+
+        answer && dispatch({
+          type: 'WEB_CHAT/SET_SEND_BOX',
+          payload: { text: answer }
+        });
       }
     }
 
