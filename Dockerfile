@@ -1,11 +1,7 @@
-FROM node:alpine
+FROM node:12
 
 EXPOSE 80 2222
-
 WORKDIR /var/bot
-ADD . /var/bot
-RUN npm ci
-RUN npm run build
 
 # Setup OpenSSH for debugging thru Azure Web App
 # https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-ssh-support#ssh-support-with-custom-docker-images
@@ -21,6 +17,11 @@ RUN \
   && mv /var/sshd_config /etc/ssh/ \
   && mv /var/init.sh /usr/local/bin/ \
   && chmod u+x /usr/local/bin/init.sh
+
+ADD . /var/bot
+RUN npm ci
+RUN npm run build
+
 
 # Set up entrypoint
 ENTRYPOINT init.sh
