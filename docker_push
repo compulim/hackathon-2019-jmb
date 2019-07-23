@@ -10,6 +10,4 @@ ACR_USERNAME=`az acr credential show --name hawohackathon2019 | jq -r '.username
 
 docker push $ACR_NAME.azurecr.io/$CONTAINER_NAME:$TRAVIS_COMMIT
 
-# az webapp config container set --docker-custom-image-name $ACR_NAME.azurecr.io/$CONTAINER_NAME:$TRAVIS_COMMIT --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP
-
 az webapp config container set --docker-custom-image-name $ACR_NAME.azurecr.io/$CONTAINER_NAME:$TRAVIS_COMMIT --docker-registry-server-password $ACR_PASSWORD --docker-registry-server-url https://$ACR_NAME.azurecr.io --docker-registry-server-user $ACR_USERNAME --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP
