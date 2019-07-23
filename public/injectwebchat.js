@@ -9,7 +9,9 @@ function createElement(tag, attributes = {}, ...children) {
   const element = document.createElement(tag);
 
   Object.keys(attributes).forEach(name => {
-    if (name === 'style') {
+    if (name === 'className') {
+      element.className = attributes.className;
+    } else if (name === 'style') {
       const style = attributes.style;
       const styleStrings = [];
 
@@ -32,8 +34,6 @@ function createElement(tag, attributes = {}, ...children) {
 
   if (children.length) {
     const fragment = document.createDocumentFragment();
-
-    console.log(children);
 
     for (let child of children) {
       if (typeof child === 'string') {
@@ -78,11 +78,13 @@ async function main() {
   const webChatElement = createElement(
     'div',
     {
+      className: 'webchat',
       style: {
         bottom: 10,
         boxShadow: '0 0 10px rgba(0, 0, 0, .1)',
         display: 'flex',
         flexDirection: 'column',
+        fontSize: 16,
         maxWidth: 360,
         minWidth: 320,
         position: 'fixed',

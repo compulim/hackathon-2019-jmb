@@ -5,10 +5,23 @@
                       base styles
    ----------------------------------------------- */
 
-html, body,
-h1, h2, h3, h4, h5, h6,
-div, p, pre, ul, ol, dl,
-address, form, blockquote
+html,
+body,
+:not(.webchat) h1,
+:not(.webchat) h2,
+:not(.webchat) h3,
+:not(.webchat) h4,
+:not(.webchat) h5,
+:not(.webchat) h6,
+:not(.webchat) div,
+:not(.webchat) p,
+:not(.webchat) pre,
+:not(.webchat) ul,
+:not(.webchat) ol,
+:not(.webchat) dl,
+:not(.webchat) address,
+:not(.webchat) form,
+:not(.webchat) blockquote
 	{
 	display: block;
 	margin: 0;
@@ -17,29 +30,52 @@ address, form, blockquote
 	text-align: left;
 	}
 
-h1, h2, h3, h4, h5, h6
+:not(.webchat) h1,
+:not(.webchat) h2,
+:not(.webchat) h3,
+:not(.webchat) h4,
+:not(.webchat) h5,
+:not(.webchat) h6
 	{
 	font-weight: bold;
 	}
 
-table
+:not(.webchat) table
 	{
 	display: table;
 	}
 
-li
+:not(.webchat) li
 	{
 	display: list-item;
 	margin: 0;
 	padding: 0;
 	line-height: 1;
 	text-align: left;
-	}	
+	}
 
-a, abbr, acronym, bdo, big,
-cite, code, dfn, em, img, kbd, label,
-object, q, ruby, samp, small,
-span, strong, sub, sup, var
+:not(.webchat) a,
+:not(.webchat) abbr,
+:not(.webchat) acronym,
+:not(.webchat) bdo,
+:not(.webchat) big,
+:not(.webchat) cite,
+:not(.webchat) code,
+:not(.webchat) dfn,
+:not(.webchat) em,
+:not(.webchat) img,
+:not(.webchat) kbd,
+:not(.webchat) label,
+:not(.webchat) object,
+:not(.webchat) q,
+:not(.webchat) ruby,
+:not(.webchat) samp,
+:not(.webchat) small,
+:not(.webchat) span,
+:not(.webchat) strong,
+:not(.webchat) sub,
+:not(.webchat) sup,
+:not(.webchat) var
 	{
 	display: inline;
 	margin: 0;
@@ -53,55 +89,56 @@ body
 	color: black;
 	background: white;
 	font-size: 12px;
-	font-family: "MS UI Gothic", "Tahoma", "Lucida Grande", "ƒqƒ‰ƒMƒmŠÛƒS Pro W4",
-	             "Osaka", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	font-family: "MS UI Gothic", "Tahoma", "Lucida Grande", "ï¿½qï¿½ï¿½ï¿½Mï¿½mï¿½ÛƒS Pro W4",
+	             "Osaka", "ï¿½lï¿½r ï¿½oï¿½Sï¿½Vï¿½bï¿½N", sans-serif;
 	}
 
-a
+:not(.webchat) a
 	{
 	text-decoration: underline;
 	}
 
-a:link,
-a:visited
+:not(.webchat) a:link,
+:not(.webchat) a:visited
 	{
 	color: #0f0f69;
 	}
-	
-a:hover,
-a:active
+
+:not(.webchat) a:hover,
+:not(.webchat) a:active
 	{
 	color: #cc0000;
 	}
 
-img
+:not(.webchat) img
 	{
 	/* vertical-align: middle; */
 	}
 
-a img
+:not(.webchat) a img
 	{
 	border: none;
 	}
 
-em, dfn
+:not(.webchat) em,
+:not(.webchat) dfn
 	{
 	font-style: normal;
 	}
 
-em
+:not(.webchat) em
 	{
 	font-weight: bold;
 	}
 
-input,
-select,
-textarea
+:not(.webchat) input,
+:not(.webchat) select,
+:not(.webchat) textarea
 	{
 	font-size: 12px;
 	line-height: 1;
 	font-family: "MS UI Gothic", "Lucida Grande",
-	             "Osaka", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	             "Osaka", "ï¿½lï¿½r ï¿½oï¿½Sï¿½Vï¿½bï¿½N", sans-serif;
 	}
 
 input.password
@@ -114,7 +151,7 @@ input,
 select,
 textarea
 	{
-	font-family: "ƒqƒ‰ƒMƒmŠÛƒS Pro W4", "Osaka", sans-serif;
+	font-family: "ï¿½qï¿½ï¿½ï¿½Mï¿½mï¿½ÛƒS Pro W4", "Osaka", sans-serif;
 	}
 /* */
 
