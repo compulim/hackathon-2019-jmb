@@ -69,7 +69,8 @@ async function main() {
   const webChatHostElement = createElement(
     'div', {
       style: {
-        flex: 1
+        flex: 1,
+        overflowY: 'auto'
       }
     }
   );

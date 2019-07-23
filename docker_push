@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Environment variables required:
-#   ACR_NAME=myacr
-#   AZURE_SP_PASSWORD=<password>
-#   AZURE_SP_TENANT=mycompany.onmicrosoft.com
-#   AZURE_SP_USERNAME=myspn
-#   AZURE_WEBAPP_NAME=mywebapp
-#   AZURE_WEBAPP_RESOURCE_GROUP=mywebapp-rg
-#   CONTAINER_NAME=mywebapp
-
 # Log into Azure
 az login --service-principal --username $AZURE_SP_USERNAME --password $AZURE_SP_PASSWORD --tenant $AZURE_SP_TENANT
 
