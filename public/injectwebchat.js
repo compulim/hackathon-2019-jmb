@@ -14,8 +14,12 @@ function createElement(tag, attributes = {}, ...children) {
       const styleStrings = [];
 
       Object.keys(style).forEach(name => {
-        const value = style[name];
+        let value = style[name];
         const normalizedName = name.replace(/[A-Z]/gu, c => `-${ c.toLowerCase() }`);
+
+        if (normalizedName === 'flex') {
+          value += '';
+        }
 
         styleStrings.push(`${ normalizedName }: ${ typeof value === 'number' ? `${ value }px` : value }`);
       });
@@ -29,8 +33,14 @@ function createElement(tag, attributes = {}, ...children) {
   if (children.length) {
     const fragment = document.createDocumentFragment();
 
+    console.log(children);
+
     for (let child of children) {
-      fragment.appendChild(child);
+      if (typeof child === 'string') {
+        fragment.appendChild(document.createTextNode(child));
+      } else {
+        fragment.appendChild(child);
+      }
     }
 
     element.appendChild(fragment);
@@ -56,19 +66,41 @@ async function main() {
 
   const { createDirectLine, createStore, renderWebChat } = window.WebChat;
   const { token } = await (await fetch('/api/directlinetoken')).json();
+  const webChatHostElement = createElement(
+    'div', {
+      style: {
+        flex: 1
+      }
+    }
+  );
+
   const webChatElement = createElement(
     'div',
     {
       style: {
         bottom: 10,
         boxShadow: '0 0 10px rgba(0, 0, 0, .1)',
+        display: 'flex',
+        flexDirection: 'column',
         maxWidth: 360,
         minWidth: 320,
         position: 'fixed',
         right: 10,
-        top: 100,
+        top: 10,
       }
-    }
+    },
+    createElement(
+      'div',
+      {
+        style: {
+          backgroundColor: '#CB0000',
+          color: 'White',
+          padding: 10
+        }
+      },
+      'JAL Mileage Bank'
+    ),
+    webChatHostElement
   );
 
   const store = createStore({}, ({ dispatch }) => next => action => {
@@ -143,7 +175,7 @@ async function main() {
     styleOptions: {
       backgroundColor: 'rgba(255, 255, 255, .9)'
     }
-  }, webChatElement);
+  }, webChatHostElement);
 
   document.body.appendChild(webChatElement);
 }
