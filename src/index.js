@@ -48,8 +48,6 @@ server.get('/api/directlinetoken', async (req, res) => {
   if (!cres.ok) {
     res.status(500);
 
-    console.log(await cres.text());
-
     return res.end();
   }
 

@@ -55,7 +55,7 @@ async function main() {
   await loadScript('https://cdn.botframework.com/botframework-webchat/4.5.0/webchat.js');
 
   const { createDirectLine, createStore, renderWebChat } = window.WebChat;
-  const { token } = await (await fetch('http://localhost:3978/api/directlinetoken')).json();
+  const { token } = await (await fetch('/api/directlinetoken')).json();
   const webChatElement = createElement(
     'div',
     {
