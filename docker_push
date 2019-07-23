@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin hawohackathon2019.azurecr.io
 docker push hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest
