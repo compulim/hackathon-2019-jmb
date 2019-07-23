@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import { createServer } from 'restify';
+import { createServer, plugins } from 'restify';
+import { join } from 'path';
 
 import {
   BotFrameworkAdapter,
@@ -55,6 +56,11 @@ server.get('/api/directlinetoken', async (req, res) => {
   res.setHeader('access-control-allow-origin', '*');
   res.json(await cres.json());
 });
+
+server.get('/*', plugins.serveStatic({
+  directory: join(__dirname, '../public'),
+  default: 'index.html'
+}));
 
 server.listen(PORT, () => {
   console.log(`Bot is now listening to port ${ PORT }`);
