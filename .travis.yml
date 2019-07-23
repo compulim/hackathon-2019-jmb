@@ -17,6 +17,4 @@ script: docker build -t hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:lates
 deploy:
   skip_clean: true
   provider: script
-  script:
-  - docker push hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest
-  - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  script: deploy.sh
