@@ -15,6 +15,6 @@ install: ""
 script: docker build -t hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest .
 
 deploy:
-  skip_clean: true
+  skip_cleanup: true
   provider: script
-  script: deploy.sh
+  script: bash docker_push
