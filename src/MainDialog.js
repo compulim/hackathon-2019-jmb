@@ -182,19 +182,12 @@ export default class MainDialog extends ComponentDialog {
         await highlightFields(context);
         await context.sendActivity(`I have generated your password as below. I will save it into your OneNote when you submit the form.\n\n- PIN is \`${ pin }\`\n- Password is \`${ password }\``);
 
-        // const { datetimeV2: [birthdate] } = luisResult.entities;
-
-        // await setField(context, { mail: email });
-        // await highlightFields(stepContext.context, ['mailConfirm']);
-
-        // return await stepContext.prompt(
-        //   'CONFIRM_PROMPT',
-        //   {
-        //     prompt: `Can you confirm your email address ${ email } is correct?`
-        //   }
-        // );
-
-        return await stepContext.next();
+        return await stepContext.prompt(
+          'CONFIRM_PROMPT',
+          {
+            prompt: `For business information, could I bring up your company profile from Microsoft Graph?`
+          }
+        );
       }
     ]));
 
