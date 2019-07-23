@@ -1,7 +1,14 @@
 import 'dotenv/config';
 import { createServer } from 'restify';
-import { BotFrameworkAdapter } from 'botbuilder';
-import Bot from './bot';
+
+import {
+  BotFrameworkAdapter,
+  ConversationState,
+  MemoryStorage,
+  UserState
+} from 'botbuilder';
+
+import Bot from './Bot';
 import fetch from 'node-fetch';
 
 const {
@@ -18,7 +25,10 @@ const adapter = new BotFrameworkAdapter({
   appPassword: MICROSOFT_APP_PASSWORD
 });
 
-const bot = new Bot();
+const memoryStorage = new MemoryStorage();
+const conversationState = new ConversationState(memoryStorage);
+const userState = new UserState(memoryStorage);
+const bot = new Bot(conversationState, userState);
 
 server.post('/api/messages', (req, res) => {
   adapter.processActivity(req, res, async context => {

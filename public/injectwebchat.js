@@ -47,7 +47,7 @@ async function loadScript(src) {
 async function main() {
   await loadScript('https://cdn.botframework.com/botframework-webchat/4.5.0/webchat.js');
 
-  const { createDirectLine, renderWebChat } = window.WebChat;
+  const { createDirectLine, createStore, renderWebChat } = window.WebChat;
   const { token } = await (await fetch('http://localhost:3978/api/directlinetoken')).json();
   const webChatElement = createElement(
     'div',
@@ -64,10 +64,42 @@ async function main() {
     }
   );
 
+  const store = createStore({}, ({ dispatch }) => next => action => {
+    const { type } = action;
+
+    if (type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+      dispatch({
+        type: 'WEB_CHAT/SEND_EVENT',
+        payload: {
+          name: 'welcome'
+        }
+      });
+
+      document.querySelector('[data-id="webchat-sendbox-input"]').focus();
+    } else if (type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+      const { activity } = action.payload;
+      const { name, type: activityType } = activity;
+
+      if (activityType === 'event' && name === 'SET_FIELD') {
+        const { name, value } = activity.value;
+        const input = document.querySelector(`form [name="${ name }"]`);
+
+        if (!input) {
+          throw new Error(`Cannot find input element named "${ name }"`);
+        }
+
+        input.value = value;
+      }
+    }
+
+    return next(action);
+  });
+
   renderWebChat({
     directLine: createDirectLine({
       token
     }),
+    store,
     styleOptions: {
       backgroundColor: 'rgba(255, 255, 255, .9)'
     }
