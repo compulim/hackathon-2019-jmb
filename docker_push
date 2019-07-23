@@ -2,3 +2,7 @@
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin hawohackathon2019.azurecr.io
 docker push hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest
+
+az login --service-principal --username $AZURE_SPN_USERNAME --password $AZURE_SPN_PASSWORD
+
+az webapp config container set --docker-custom-image-name hawohackathon2019.azurecr.io/hackathon2019-jmb --docker-registry-server-password $DOCKER_PASSWORD --docker-registry-server-url https://hawohackathon2019.azurecr.io/ --docker-registry-server-user $DOCKER_USERNAME --name hackathon2019-jmb --resource-group hackathon2019
