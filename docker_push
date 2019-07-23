@@ -6,4 +6,6 @@ az acr login --name $ACR_NAME
 
 docker push $CONTAINER_NAME:$TRAVIS_COMMIT
 
-az webapp config container set --docker-custom-image-name $CONTAINER_NAME:$TRAVIS_COMMIT --docker-registry-server-password $ACR_PASSWORD --docker-registry-server-url https://$ACR_NAME --docker-registry-server-user $ACR_USERNAME --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --tenant $ACR_TENANT
+az webapp config container set --docker-custom-image-name $CONTAINER_NAME:$TRAVIS_COMMIT --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --tenant $ACR_TENANT
+
+#az webapp config container set --docker-custom-image-name $CONTAINER_NAME:$TRAVIS_COMMIT --docker-registry-server-password $ACR_PASSWORD --docker-registry-server-url https://$ACR_NAME --docker-registry-server-user $ACR_USERNAME --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --tenant $ACR_TENANT
