@@ -2,7 +2,7 @@ const AUTO_ANSWERS = {
   'What is your name?': 'John Lennon.',
   'What is your phone number?': 'My number is 425-882-8080.',
   'What is your email address?': 'My email is john.lennon@microsoft.com',
-  'What is your birthdate?': 'My birthdate is 1940-10-09.'
+  'What is your birthday?': 'My birthdate is 1940-10-09.'
 };
 
 function createElement(tag, attributes = {}, ...children) {
@@ -103,6 +103,7 @@ async function main() {
           const { names } = activity.value;
 
           document.querySelectorAll(`form [name]`).forEach(element => {
+            element.style.background = '';
             element.style.border = '';
           });
 
@@ -110,6 +111,7 @@ async function main() {
             const element = document.querySelector(`form [name="${ name }"]`);
 
             if (element) {
+              element.style.background = 'rgba(255, 0, 0, .1)';
               element.style.border = 'dotted 2px rgba(255, 0, 0)';
 
               index || element.scrollIntoView({ behavior: 'smooth', block: 'center' });

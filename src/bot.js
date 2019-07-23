@@ -10,7 +10,11 @@ export default class Bot extends ActivityHandler {
     const dialogState = conversationState.createProperty('DIALOG_STATE');
 
     this.onEvent(async (context, next) => {
-      await context.sendActivity('Thank you for joining JAL Mileage Bank. Let me help you to fill out the form.');
+      await context.sendActivity({
+        type: 'message',
+        text: '![JAL Logo](/jallogo-small.png)\n\nThank you for joining JAL Mileage Bank. Let me help you to fill out the form.'
+      });
+
       await dialog.run(context, dialogState);
 
       await next();

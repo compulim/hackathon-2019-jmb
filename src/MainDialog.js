@@ -142,7 +142,7 @@ export default class MainDialog extends ComponentDialog {
           return await stepContext.prompt(
             'TEXT_PROMPT',
             {
-              prompt: 'What is your birthdate?'
+              prompt: 'What is your birthday?'
             }
           );
         }
@@ -154,8 +154,8 @@ export default class MainDialog extends ComponentDialog {
         const luisResult = await this.recognizer.executeLuisQuery(context);
         const intent = LuisRecognizer.topIntent(luisResult);
 
-        if (intent !== 'FILL_BIRTHDATE') {
-          await context.sendActivity('Sorry, could you repeat your birthdate again?');
+        if (intent !== 'FILL_BIRTHDAY') {
+          await context.sendActivity('Sorry, could you repeat your birthday again?');
         }
 
         const [year, month, day] = luisResult.entities.datetime[0].timex[0].split('-').map(value => +value);
@@ -179,7 +179,7 @@ export default class MainDialog extends ComponentDialog {
           webPassConfirm: password
         });
 
-        await highlightFields(context);
+        await highlightFields(context, 'businessName', 'businessAddress1', 'businessAddress2', 'businessCityName', 'businessStateCode1', 'businessPostalCode1', 'businessCountry', 'businessTel1');
         await context.sendActivity(`I have generated your password as below. I will save it into your OneNote when you submit the form.\n\n- PIN is \`${ pin }\`\n- Password is \`${ password }\``);
 
         return await stepContext.prompt(
@@ -188,6 +188,27 @@ export default class MainDialog extends ComponentDialog {
             prompt: `For business information, could I bring up your company profile from Microsoft Graph?`
           }
         );
+      },
+      async stepContext => {
+        const { context } = stepContext;
+
+        if (stepContext.result) {
+          await context.sendActivity({ type: 'typing' });
+
+          await setField(context, {
+            businessName: 'Microsoft Corporation',
+            businessAddress1: 'One Microsoft Way',
+            businessCityName: 'Redmond',
+            businessStateCode1: 'WA',
+            businessPostalCode1: '98052',
+            businessCountry: 'USA',
+            businessTel1: '425-882-8080'
+          });
+
+          await highlightFields(context);
+        }
+
+        return await stepContext.next();
       }
     ]));
 
