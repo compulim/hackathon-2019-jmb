@@ -1,6 +1,8 @@
 const AUTO_ANSWERS = {
   'What is your name?': 'John Lennon.',
-  'What is your phone number?': 'My number is 425-882-8080.'
+  'What is your phone number?': 'My number is 425-882-8080.',
+  'What is your email address?': 'My email is john.lennon@microsoft.com',
+  'What is your birthdate?': 'My birthdate is 1940-10-09.'
 };
 
 function createElement(tag, attributes = {}, ...children) {
@@ -83,20 +85,42 @@ async function main() {
       document.querySelector('[data-id="webchat-sendbox-input"]').focus();
     } else if (type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
       const { activity } = action.payload;
-      const { name, type: activityType } = activity;
+      const { type: activityType } = activity;
 
-      if (activityType === 'event' && name === 'SET_FIELD') {
-        const { name, value } = activity.value;
-        const input = document.querySelector(`form [name="${ name }"]`);
+      if (activityType === 'event') {
+        const { name: eventName } = activity;
 
-        if (!input) {
-          throw new Error(`Cannot find input element named "${ name }"`);
+        if (eventName === 'SET_FIELD') {
+          const { name, value } = activity.value;
+          const input = document.querySelector(`form [name="${ name }"]`);
+
+          if (!input) {
+            throw new Error(`Cannot find input element named "${ name }"`);
+          }
+
+          input.value = value;
+        } else if (eventName === 'HIGHLIGHT_FIELDS') {
+          const { names } = activity.value;
+
+          document.querySelectorAll(`form [name]`).forEach(element => {
+            element.style.border = '';
+          });
+
+          names.forEach((name, index) => {
+            const element = document.querySelector(`form [name="${ name }"]`);
+
+            if (element) {
+              element.style.border = 'dotted 2px rgba(255, 0, 0)';
+
+              index || element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          });
+        } else if (eventName === 'CONFIRM_EMAIL') {
+          const { value: email } = document.querySelector('form [name="mail"]');
+
+          document.querySelector('form [name="mailConfirm"]').value = email;
         }
-
-        input.value = value;
-      }
-
-      if (activityType === 'message') {
+      } else if (activityType === 'message') {
         const answer = AUTO_ANSWERS[activity.text];
 
         answer && dispatch({
