@@ -1,9 +1,9 @@
 #!/bin/bash
 
-docker push $CONTAINER_NAME
-
 az login --service-principal --username $AZURE_SPN_USERNAME --password $AZURE_SPN_PASSWORD
 
 az acr login --name $ACR_NAME
+
+docker push $CONTAINER_NAME
 
 az webapp config container set --docker-custom-image-name $CONTAINER_NAME --docker-registry-server-password $ACR_PASSWORD --docker-registry-server-url https://$ACR_NAME --docker-registry-server-user $ACR_USERNAME --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --tenant $ACR_TENANT
