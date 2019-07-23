@@ -15,6 +15,5 @@ install: ""
 script: docker build -t $ACR_NAME.azurecr.io/$CONTAINER_NAME:$TRAVIS_COMMIT .
 
 deploy:
-  skip_cleanup: true
   provider: script
   script: bash docker_push
