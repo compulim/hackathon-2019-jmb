@@ -7,21 +7,21 @@
 
 html,
 body,
-:not(.webchat) h1,
-:not(.webchat) h2,
-:not(.webchat) h3,
-:not(.webchat) h4,
-:not(.webchat) h5,
-:not(.webchat) h6,
-:not(.webchat) div,
-:not(.webchat) p,
-:not(.webchat) pre,
-:not(.webchat) ul,
-:not(.webchat) ol,
-:not(.webchat) dl,
-:not(.webchat) address,
-:not(.webchat) form,
-:not(.webchat) blockquote
+.jal h1,
+.jal h2,
+.jal h3,
+.jal h4,
+.jal h5,
+.jal h6,
+.jal div,
+.jal p,
+.jal pre,
+.jal ul,
+.jal ol,
+.jal dl,
+.jal address,
+.jal form,
+.jal blockquote
 	{
 	display: block;
 	margin: 0;
@@ -30,22 +30,22 @@ body,
 	text-align: left;
 	}
 
-:not(.webchat) h1,
-:not(.webchat) h2,
-:not(.webchat) h3,
-:not(.webchat) h4,
-:not(.webchat) h5,
-:not(.webchat) h6
+.jal h1,
+.jal h2,
+.jal h3,
+.jal h4,
+.jal h5,
+.jal h6
 	{
 	font-weight: bold;
 	}
 
-:not(.webchat) table
+.jal table
 	{
 	display: table;
 	}
 
-:not(.webchat) li
+.jal li
 	{
 	display: list-item;
 	margin: 0;
@@ -54,28 +54,28 @@ body,
 	text-align: left;
 	}
 
-:not(.webchat) a,
-:not(.webchat) abbr,
-:not(.webchat) acronym,
-:not(.webchat) bdo,
-:not(.webchat) big,
-:not(.webchat) cite,
-:not(.webchat) code,
-:not(.webchat) dfn,
-:not(.webchat) em,
-:not(.webchat) img,
-:not(.webchat) kbd,
-:not(.webchat) label,
-:not(.webchat) object,
-:not(.webchat) q,
-:not(.webchat) ruby,
-:not(.webchat) samp,
-:not(.webchat) small,
-:not(.webchat) span,
-:not(.webchat) strong,
-:not(.webchat) sub,
-:not(.webchat) sup,
-:not(.webchat) var
+.jal a,
+.jal abbr,
+.jal acronym,
+.jal bdo,
+.jal big,
+.jal cite,
+.jal code,
+.jal dfn,
+.jal em,
+.jal img,
+.jal kbd,
+.jal label,
+.jal object,
+.jal q,
+.jal ruby,
+.jal samp,
+.jal small,
+.jal span,
+.jal strong,
+.jal sub,
+.jal sup,
+.jal var
 	{
 	display: inline;
 	margin: 0;
@@ -93,47 +93,47 @@ body
 	             "Osaka", "�l�r �o�S�V�b�N", sans-serif;
 	}
 
-:not(.webchat) a
+.jal a
 	{
 	text-decoration: underline;
 	}
 
-:not(.webchat) a:link,
-:not(.webchat) a:visited
+.jal a:link,
+.jal a:visited
 	{
 	color: #0f0f69;
 	}
 
-:not(.webchat) a:hover,
-:not(.webchat) a:active
+.jal a:hover,
+.jal a:active
 	{
 	color: #cc0000;
 	}
 
-:not(.webchat) img
+.jal img
 	{
 	/* vertical-align: middle; */
 	}
 
-:not(.webchat) a img
+.jal a img
 	{
 	border: none;
 	}
 
-:not(.webchat) em,
-:not(.webchat) dfn
+.jal em,
+.jal dfn
 	{
 	font-style: normal;
 	}
 
-:not(.webchat) em
+.jal em
 	{
 	font-weight: bold;
 	}
 
-:not(.webchat) input,
-:not(.webchat) select,
-:not(.webchat) textarea
+.jal input,
+.jal select,
+.jal textarea
 	{
 	font-size: 12px;
 	line-height: 1;
