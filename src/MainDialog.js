@@ -208,7 +208,7 @@ export default class MainDialog extends ComponentDialog {
           await highlightFields(context);
         }
 
-        await stepContext.sendActivity('Looks like your application form is ready to submit. Please review it and click "Next" to continue.');
+        await context.sendActivity('Looks like your application form is ready to submit. Please review it and click "Next" to continue.');
 
         return await stepContext.next();
       }
