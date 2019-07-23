@@ -5,13 +5,18 @@ services:
 
 node_js: "12"
 
+before_install:
+- AZ_REPO=$(lsb_release -cs) && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+- curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+- sudo apt-get install apt-transport-https
+- sudo apt-get update && sudo apt-get install azure-cli
+
 install: ""
 script: docker build -t hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest .
 
 deploy:
-  cleanup: false
+  skip_clean: true
   provider: script
   script:
-  - docker login -u hawohackathon2019 -p $ACR_PASSWORD hawohackathon2019.azurecr.io
   - docker push hawohackathon2019.azurecr.io/hackathon2019-jmb-bot:latest
   - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
