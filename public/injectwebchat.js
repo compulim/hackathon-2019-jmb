@@ -2,8 +2,33 @@ const AUTO_ANSWERS = {
   'What is your name?': 'John Lennon.',
   'What is your phone number?': 'My number is 425-882-8080.',
   'What is your email address?': 'My email is john.lennon@microsoft.com',
-  'What is your birthday?': 'My birthdate is 1940-10-09.'
+  'What is your birthday?': 'My birthday is 1940-10-09.'
 };
+
+function setTimeoutWithAsync(fn, delay) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        resolve(fn());
+      } catch (err) {
+        reject(err);
+      }
+    }, delay);
+  });
+}
+
+async function setSendBox(dispatch, answer) {
+  await setTimeoutWithAsync(() => 0, 600);
+
+  for (let i = 0; i < answer.length; i++) {
+    await setTimeoutWithAsync(() => {
+      dispatch({
+        type: 'WEB_CHAT/SET_SEND_BOX',
+        payload: { text: answer.substr(0, i + 1) }
+      });
+    }, 70 + ~~(Math.random() * 20));
+  }
+}
 
 function createElement(tag, attributes = {}, ...children) {
   const element = document.createElement(tag);
@@ -160,10 +185,11 @@ async function main() {
       } else if (activityType === 'message') {
         const answer = AUTO_ANSWERS[activity.text];
 
-        answer && dispatch({
-          type: 'WEB_CHAT/SET_SEND_BOX',
-          payload: { text: answer }
-        });
+        answer && setSendBox(dispatch, answer);
+
+        // if (/^Looks\slike/.test(activity.text)) {
+        //   document.body.scrollIntoView({ behavior: 'smooth' })
+        // }
       }
     }
 
