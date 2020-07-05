@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
+  "files": [
+    "lib/**/*",
+    "public/**/*"
+  ],
   "scripts": {
     "build": "babel --out-dir lib --source-maps true src",
     "start": "npm run build && concurrently --kill-others --names \"bot,build,serve\" \"npm run start:bot\" \"npm run start:build\" \"npm run start:serve\"",
